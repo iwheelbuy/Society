@@ -2,6 +2,7 @@
 <html>
     <body>
         
+
         <script type="text/javascript">
             
             
@@ -12,7 +13,7 @@
         
         function requestToken(client_id, redirect_uri, code, scheme) {
             var request = new XMLHttpRequest();
-            var body = 'client_id=' + client_id + '&redirect_uri=https://iwheelbuy.github.io/SocialNetwork/blank.html&grant_type=authorization_code&code=' + code + '&client_secret=w-PDKd0Ui2xKZ8OVlDFuihQk';
+            var body = 'client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&grant_type=authorization_code&code=' + code + '&client_secret=w-PDKd0Ui2xKZ8OVlDFuihQk';
             request.open("POST", 'https://www.googleapis.com/oauth2/v4/token', true);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.onreadystatechange = function() {
@@ -29,12 +30,17 @@
         }
         
         window.onload = function() {
-            var identifier = getParameterByName('state');
             var code = getParameterByName('code');
-            var client_id = identifier + '.apps.googleusercontent.com';
-            var redirect_uri = 'https://iwheelbuy.github.io/SocialNetwork/google.html';
-            var scheme = 'com.googleusercontent.apps.' + identifier + ':/';
-            requestToken(client_id, redirect_uri, code, scheme)
+            if (code) {
+                var identifier = getParameterByName('state');
+                var client_id = identifier + '.apps.googleusercontent.com';
+                var redirect_uri = 'https://iwheelbuy.github.io/SocialNetwork/google.html';
+                var scheme = 'com.googleusercontent.apps.' + identifier + ':/';
+                requestToken(client_id, redirect_uri, code, scheme)
+            } else {
+                var link = scheme + ':/socialnetwork?provider=google';
+                window.location.replace(link);
+            }
         }
         
             </script>
