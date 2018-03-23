@@ -12,25 +12,28 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        SocialNetwork.delegate = self
         SocialNetwork.Facebook.informationProvider = self
         SocialNetwork.Google.informationProvider = self
         window?.rootViewController = UIViewController()
         window?.makeKeyAndVisible()
         defer {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-//                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
-//                self?.window?.rootViewController?.present(controller, animated: true)
-//            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                let controller = SFSafariViewController(url: SocialNetwork.Facebook.url)
+                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
                 self?.window?.rootViewController?.present(controller, animated: true)
             }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+//                let controller = SFSafariViewController(url: SocialNetwork.Facebook.url)
+//                self?.window?.rootViewController?.present(controller, animated: true)
+//            }
         }
         return true
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        print(url, url.pathComponents, url.queryItems, url.scheme)
+        if SocialNetwork.didProceed(url: url) {
+            return true
+        }
         return false
     }
 }
@@ -48,6 +51,13 @@ extension URL {
     }
 }
 
+extension AppDelegate: SocialNetworkDelegate {
+    
+    func socialNetwork(socialNetwork: SocialNetwork, didCompleteWithToken token: String?) {
+        print(socialNetwork.rawValue, token)
+    }
+}
+
 extension AppDelegate: SocialNetworkFacebookInformationProvider {
     
     func socialNetworkFacebookApplicationIdentifier() -> String {
@@ -58,6 +68,10 @@ extension AppDelegate: SocialNetworkFacebookInformationProvider {
 extension AppDelegate: SocialNetworkGoogleInformationProvider {
     
     func socialNetworkGoogleApplicationIdentifier() -> String {
-        return "683698461214-ablpl858n3fta66oq65f2g62aan5duq8"
+        return "683698461214-h7n4hki1pagc5d7fvveq4fbb3baolt72"
+    }
+    
+    func socialNetworkGoogleRedirectUrl() -> String {
+        return "https://iwheelbuy.github.io/SocialNetwork/google.html"
     }
 }
