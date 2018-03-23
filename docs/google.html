@@ -11,7 +11,7 @@
         <p id="e"></p>
         <p id="f"></p>
 
-<!--        <script type="text/javascript">-->
+        <script type="text/javascript">
 <!--            -->
 <!--            function param(name, url) {-->
 <!--                name = name.replace(/[\[\]]/g, "\\$&");-->
@@ -40,8 +40,13 @@
 <!--                }-->
 <!--                });-->
 <!--        }-->
-<!--        -->
-<!--        window.onload = function() {-->
+        
+        window.onload = function() {
+            document.getElementById("a").innerHTML = 'a';
+            document.getElementById("b").innerHTML = 'b';
+            document.getElementById("c").innerHTML = 'c';
+            
+
 <!--            var url = window.location.href-->
 <!--            var identifier = param('state', url)-->
 <!--            var code = param('code', url)-->
@@ -49,9 +54,9 @@
 <!--            var redirect_uri = https://iwheelbuy.github.io/SocialNetwork/google.html-->
 <!--            var scheme = 'com.googleusercontent.apps.' + identifier + ':/'-->
 <!--            requestToken(client_id, redirect_uri, code, scheme)-->
-<!--        }-->
-<!--        -->
-<!--            </script>-->
+        }
+        
+            </script>
     </body>
 </html>
 
