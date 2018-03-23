@@ -2,18 +2,20 @@
 <html>
     <body>
         <script type="text/javascript">
-            function getParameterByName(name) {
-                var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+            function param(name, url) {
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[#&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
             }
-        window.onload = function() {
-            var url = window.location.href;
-            var scheme = getParameterByName('state');
-            var token = getParameterByName('access_token');
-            var link = scheme + ':/socialnetwork?provider=facebook&token=' + token;
-            window.location.replace(link);
-        }
+            window.onload = function() {
+                var url = window.location.href
+                var scheme = param('state', url)
+                var token = param('access_token', url)
+                var link = scheme + ':/socialnetwork?provider=facebook&token=' + token
+                window.location.replace(link);
+            }
         </script>
     </body>
 </html>
-
