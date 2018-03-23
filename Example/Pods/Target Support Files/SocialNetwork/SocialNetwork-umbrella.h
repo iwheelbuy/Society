@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double SocietyVersionNumber;
-FOUNDATION_EXPORT const unsigned char SocietyVersionString[];
+FOUNDATION_EXPORT double SocialNetworkVersionNumber;
+FOUNDATION_EXPORT const unsigned char SocialNetworkVersionString[];
 

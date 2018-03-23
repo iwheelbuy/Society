@@ -1,6 +1,0 @@
-framework module Society {
-  umbrella header "Society-umbrella.h"
-
-  export *
-  module * { export * }
-}

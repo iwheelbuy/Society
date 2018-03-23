@@ -1,16 +1,16 @@
 PODS:
-  - Society (0.1.0)
+  - SocialNetwork (0.1.0)
 
 DEPENDENCIES:
-  - Society (from `../Metadata`)
+  - SocialNetwork (from `../`)
 
 EXTERNAL SOURCES:
-  Society:
-    :path: ../Metadata
+  SocialNetwork:
+    :path: ../
 
 SPEC CHECKSUMS:
-  Society: 4a2f4aa890189de715592dbc684a61a28adfab60
+  SocialNetwork: fd7c7970cf222855383c222c34a9d0c76355d322
 
-PODFILE CHECKSUM: 9b773a3f140baf542d027ba41dbb0f7cbd1a396c
+PODFILE CHECKSUM: f643a5a674d7fb815d8cbb26b66fea34f17aa390
 
 COCOAPODS: 1.4.0

@@ -1,6 +1,6 @@
 use_frameworks!
 
 target 'Example' do
-    pod 'Society', :path => '../Metadata'
+    pod 'SocialNetwork', :path => '../'
 end
 

@@ -1,7 +1,7 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
-## Society
+## SocialNetwork
 
 Copyright (c) 2018 iwheelbuy <iwheelbuy@gmail.com>
 
