@@ -11,28 +11,30 @@ extension String {
 
 // MARK: -
 
+public protocol SocialNetworkFacebookInformationProvider: class {
+    
+    func socialNetworkFacebookApplicationIdentifier() -> String
+    func socialNetworkFacebookRedirectUrl() -> String
+}
+
+// MARK: -
+
 ///
 public enum SocialNetwork {
     ///
     case facebook
     ///
     public final class Facebook {
-        /// Shared instance of SocialNetwork.Facebook class
-        static let shared = SocialNetwork.Facebook()
         ///
-        var id: String!
+        public static weak var informationProvider: SocialNetworkFacebookInformationProvider?
         ///
-        public static func prepare(id: String) {
-            SocialNetwork.Facebook.shared.id = id
-        }
-        ///
-        static var url: URL? {
-            let id = SocialNetwork.Facebook.shared.id
+        public static var url: URL {
+            let id = informationProvider!.socialNetworkFacebookApplicationIdentifier()
             guard let string = "https://www.facebook.com/v2.12/dialog/oauth?client_id=\(id)&redirect_uri=https://iwheelbuy.github.io/VK/facebook.html&state=fb\(id)&response_type=token".urlQueryConverted else {
-                return nil
+                fatalError()
             }
             guard let url = URL(string: string) else {
-                return nil
+                fatalError()
             }
             return url
         }
