@@ -4,12 +4,7 @@
         
         <h2>My First Web Page</h2>
         <p>My First Paragraph.</p>
-        <p id="c"></p>
-        <p id="d"></p>
-        <p id="e"></p>
-        <p id="f"></p>
         <p id="g"></p>
-        <p id="h"></p>
         
         <script type="text/javascript">
             
@@ -20,22 +15,15 @@
             }
         
         function requestToken(client_id, redirect_uri, code, scheme) {
-            document.getElementById("e").innerHTML = code;
-            document.getElementById("d").innerHTML = client_id;
-            document.getElementById("c").innerHTML = redirect_uri;
-            document.getElementById("f").innerHTML = scheme;
-            
-            var xhr = new XMLHttpRequest();
+            var request = new XMLHttpRequest();
             var body = 'client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&grant_type=authorization_code&code=' + code + '&client_secret=w-PDKd0Ui2xKZ8OVlDFuihQk';
             document.getElementById("g").innerHTML = body;
-            xhr.open("POST", 'https://www.googleapis.com/oauth2/v4/token', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            
-            xhr.onreadystatechange = function() {
-                document.getElementById("h").innerHTML = this.responseText;
+            request.open("POST", 'https://www.googleapis.com/oauth2/v4/token', true);
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            request.onreadystatechange = function() {
+                document.getElementById("g").innerHTML = this.responseText;
             };
-            
-            xhr.send(body);
+            request.send(body);
         }
         
         window.onload = function() {
