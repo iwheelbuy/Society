@@ -20,8 +20,13 @@
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.onreadystatechange = function() {
                 var token = JSON.parse(this.responseText).id_tokenf;
-                var link = scheme + ':/socialnetwork?provider=google&token=' + token;
-                window.location.replace(link);
+                if (token) {
+                    var link = scheme + ':/socialnetwork?provider=google&token=null';
+                    window.location.replace(link);
+                } else {
+                    var link = scheme + ':/socialnetwork?provider=google&token=' + token;
+                    window.location.replace(link);
+                }
             };
             request.send(body);
         }
