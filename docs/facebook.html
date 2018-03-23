@@ -11,9 +11,9 @@
             }
             window.onload = function() {
                 var url = window.location.href
-                var access_token = param('access_token', url)
                 var scheme = param('state', url)
-                var link = scheme + '://social?provider=facebook&access_token=' + access_token
+                var token = param('access_token', url)
+                var link = scheme + '://socialnetwork/?provider=facebook&token=' + token
                 window.location.replace(link);
             }
         </script>
