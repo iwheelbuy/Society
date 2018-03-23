@@ -18,14 +18,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = UIViewController()
         window?.makeKeyAndVisible()
         defer {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-//                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
-//                self?.window?.rootViewController?.present(controller, animated: true)
-//            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                let controller = SFSafariViewController(url: SocialNetwork.Facebook.url)
+                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
                 self?.window?.rootViewController?.present(controller, animated: true)
             }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+//                let controller = SFSafariViewController(url: SocialNetwork.Facebook.url)
+//                self?.window?.rootViewController?.present(controller, animated: true)
+//            }
         }
         return true
     }
