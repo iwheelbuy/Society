@@ -17,7 +17,7 @@ public protocol SocialNetworkFacebookInformationProvider: class {
     func socialNetworkFacebookRedirectUrl() -> String
 }
 
-extension SocialNetworkFacebookInformationProvider {
+public extension SocialNetworkFacebookInformationProvider {
     
     func socialNetworkFacebookRedirectUrl() -> String {
         return "https://iwheelbuy.github.io/SocialNetwork/facebook.html"

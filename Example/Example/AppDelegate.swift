@@ -23,6 +23,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        print(url)
+        return false
+    }
 }
 
 extension AppDelegate: SocialNetworkFacebookInformationProvider {
