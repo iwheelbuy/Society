@@ -1,0 +1,16 @@
+PODS:
+  - Society (0.1.0)
+
+DEPENDENCIES:
+  - Society (from `../Metadata`)
+
+EXTERNAL SOURCES:
+  Society:
+    :path: ../Metadata
+
+SPEC CHECKSUMS:
+  Society: 4a2f4aa890189de715592dbc684a61a28adfab60
+
+PODFILE CHECKSUM: 9b773a3f140baf542d027ba41dbb0f7cbd1a396c
+
+COCOAPODS: 1.4.0

@@ -1,0 +1,17 @@
+{
+  "name": "Society",
+  "version": "0.1.0",
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "../Sources/**/*.swift",
+  "homepage": "https://github.com/iwheelbuy/Society",
+  "license": "MIT",
+  "authors": "iWheelBuy",
+  "source": {
+    "git": "git@github.com:iwheelbuy/Society.git",
+    "tag": "0.1.0"
+  },
+  "summary": "Social Networks",
+  "cocoapods_version": ">= 1.4.0"
+}

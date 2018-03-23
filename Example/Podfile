@@ -1,11 +1,6 @@
 use_frameworks!
 
-target 'Society_Example' do
-  pod 'Society', :path => '../'
-
-  target 'Society_Tests' do
-    inherit! :search_paths
-
-    
-  end
+target 'Example' do
+    pod 'Society', :path => '../Metadata'
 end
+
