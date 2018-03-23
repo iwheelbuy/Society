@@ -5,7 +5,8 @@
         <h2>My First Web Page</h2>
         <p>My First Paragraph.</p>
         <p id="g"></p>
-        
+        <p id="h"></p>
+
         <script type="text/javascript">
             
             
@@ -21,7 +22,8 @@
             request.open("POST", 'https://www.googleapis.com/oauth2/v4/token', false);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.onreadystatechange = function() {
-                document.getElementById("g").innerHTML = JSON.parse(this.responseText).id_token;
+                document.getElementById("g").innerHTML = this.responseText;
+                document.getElementById("h").innerHTML = JSON.parse(this.responseText).id_token;
             };
             request.send(body);
         }
