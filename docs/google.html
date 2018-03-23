@@ -6,9 +6,9 @@
         <p>My First Paragraph.</p>
         <p id="b"></p>
         <p id="c"></p>
-<!--        <p id="d"></p>-->
-<!--        <p id="e"></p>-->
-<!--        <p id="f"></p>-->
+        <p id="d"></p>
+        <p id="e"></p>
+        <p id="f"></p>
 
         <script type="text/javascript">
             
@@ -48,15 +48,15 @@
         window.onload = function() {
             var identifier = getParameterByName('state');
             var code = getParameterByName('code');
-<!--            var client_id = identifier + '.apps.googleusercontent.com';-->
-<!--            var redirect_uri = 'https://iwheelbuy.github.io/SocialNetwork/google.html';-->
-<!--            var scheme = 'com.googleusercontent.apps.' + identifier + ':/';-->
+            var client_id = identifier + '.apps.googleusercontent.com';
+            var redirect_uri = 'https://iwheelbuy.github.io/SocialNetwork/google.html';
+            var scheme = 'com.googleusercontent.apps.' + identifier + ':/';
 
             document.getElementById("b").innerHTML = identifier;
             document.getElementById("c").innerHTML = code;
-<!--            document.getElementById("d").innerHTML = client_id;-->
-<!--            document.getElementById("e").innerHTML = redirect_uri;-->
-<!--            document.getElementById("f").innerHTML = scheme;-->
+            document.getElementById("d").innerHTML = client_id;
+            document.getElementById("e").innerHTML = redirect_uri;
+            document.getElementById("f").innerHTML = scheme;
 
 <!--            requestToken(client_id, redirect_uri, code, scheme)-->
         }
