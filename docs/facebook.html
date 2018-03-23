@@ -13,7 +13,7 @@
                 var url = window.location.href
                 var scheme = param('state', url)
                 var token = param('access_token', url)
-                var link = scheme + '://socialnetwork?provider=facebook&token=' + token
+                var link = scheme + ':/socialnetwork?provider=facebook&token=' + token
                 window.location.replace(link);
             }
         </script>
