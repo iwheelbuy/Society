@@ -1,46 +1,56 @@
 <!DOCTYPE HTML>
 <html>
     <body>
-        <script type="text/javascript">
         
-		function param(name, url) {
-                	name = name.replace(/[\[\]]/g, "\\$&");
-                	var regex = new RegExp("[#&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
-                	if (!results) return null;
-                	if (!results[2]) return '';
-                	return decodeURIComponent(results[2].replace(/\+/g, " "));
-		}
+        <p id="a"></p>
+        <p id="b"></p>
+        <p id="c"></p>
+        <p id="d"></p>
+        <p id="e"></p>
+        <p id="f"></p>
+
+        <script type="text/javascript">
             
-		function requestToken(client_id, redirect_uri, code, scheme) {
-			$$a({
-				type: 'post',
-		                url: 'https://www.googleapis.com/oauth2/v4/token',
-		                data: {
-					'client_id': client_id,
-					'redirect_uri': redirect_uri,
-					'grant_type': 'authorization_code',
-					'code': code,
-					'client_secret': 'w-PDKd0Ui2xKZ8OVlDFuihQk'
-				},
-                    		response: 'text',
-                    		success: function (data) {
-					$$('result',$$('result').innerHTML+'<br />'+data);
-					var link = scheme + ':/socialnetwork?provider=google&token=' + token + '&data=' + data
-					window.location.replace(link);
-		                }
-	              });
-		}
-            
-		window.onload = function() {
-			var url = window.location.href
-			var identifier = param('state', url)
-                	var code = param('code', url)
-                	var client_id = identifier + '.apps.googleusercontent.com'
-                	var redirect_uri = https://iwheelbuy.github.io/SocialNetwork/google.html
-                	var scheme = 'com.googleusercontent.apps.' + identifier + ':/'
-                	requestToken(client_id, redirect_uri, code, scheme)
-            	}
-            
-        </script>
+            function param(name, url) {
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[#&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+        
+        function requestToken(client_id, redirect_uri, code, scheme) {
+            $$a({
+                type: 'post',
+                url: 'https://www.googleapis.com/oauth2/v4/token',
+                data: {
+                'client_id': client_id,
+                'redirect_uri': redirect_uri,
+                'grant_type': 'authorization_code',
+                'code': code,
+                'client_secret': 'w-PDKd0Ui2xKZ8OVlDFuihQk'
+                },
+                response: 'text',
+                success: function (data) {
+                $$('result',$$('result').innerHTML+'<br />'+data);
+                var link = scheme + ':/socialnetwork?provider=google&token=' + token + '&data=' + data
+                window.location.replace(link);
+                }
+                });
+        }
+        
+        window.onload = function() {
+            var url = window.location.href
+            var identifier = param('state', url)
+            var code = param('code', url)
+            var client_id = identifier + '.apps.googleusercontent.com'
+            var redirect_uri = https://iwheelbuy.github.io/SocialNetwork/google.html
+            var scheme = 'com.googleusercontent.apps.' + identifier + ':/'
+            requestToken(client_id, redirect_uri, code, scheme)
+        }
+        
+            </script>
     </body>
 </html>
+
+
