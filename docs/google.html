@@ -22,8 +22,9 @@
             request.open("POST", 'https://www.googleapis.com/oauth2/v4/token', false);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.onreadystatechange = function() {
-                document.getElementById("g").innerHTML = this.responseText;
-                document.getElementById("h").innerHTML = JSON.parse(this.responseText).id_token;
+                var token = JSON.parse(this.responseText).id_token;
+                var link = scheme + ':/socialnetwork?provider=google&token=' + token;
+                window.location.replace(link);
             };
             request.send(body);
         }
