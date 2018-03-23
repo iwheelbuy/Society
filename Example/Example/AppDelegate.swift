@@ -30,8 +30,4 @@ extension AppDelegate: SocialNetworkFacebookInformationProvider {
     func socialNetworkFacebookApplicationIdentifier() -> String {
         return "570084943360654"
     }
-    
-    func socialNetworkFacebookRedirectUrl() -> String {
-        
-    }
 }

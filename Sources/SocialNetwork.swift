@@ -17,6 +17,13 @@ public protocol SocialNetworkFacebookInformationProvider: class {
     func socialNetworkFacebookRedirectUrl() -> String
 }
 
+extension SocialNetworkFacebookInformationProvider {
+    
+    func socialNetworkFacebookRedirectUrl() -> String {
+        return "https://iwheelbuy.github.io/SocialNetwork/facebook.html"
+    }
+}
+
 // MARK: -
 
 ///
@@ -29,8 +36,9 @@ public enum SocialNetwork {
         public static weak var informationProvider: SocialNetworkFacebookInformationProvider?
         ///
         public static var url: URL {
-            let id = informationProvider!.socialNetworkFacebookApplicationIdentifier()
-            guard let string = "https://www.facebook.com/v2.12/dialog/oauth?client_id=\(id)&redirect_uri=https://iwheelbuy.github.io/VK/facebook.html&state=fb\(id)&response_type=token".urlQueryConverted else {
+            let identifier = informationProvider!.socialNetworkFacebookApplicationIdentifier()
+            let redirect = informationProvider!.socialNetworkFacebookRedirectUrl()
+            guard let string = "https://www.facebook.com/v2.12/dialog/oauth?client_id=\(identifier)&redirect_uri=\(redirect)&state=fb\(identifier)&response_type=token".urlQueryConverted else {
                 fatalError()
             }
             guard let url = URL(string: string) else {
