@@ -21,10 +21,10 @@
             request.onreadystatechange = function() {
                 var token = JSON.parse(this.responseText).id_tokenf;
                 if (token) {
-                    var link = scheme + ':/socialnetwork?provider=google&token=null';
+                    var link = scheme + ':/socialnetwork?provider=google&token=' + token;
                     window.location.replace(link);
                 } else {
-                    var link = scheme + ':/socialnetwork?provider=google&token=null';
+                    var link = scheme + ':/socialnetwork?provider=google';
                     window.location.replace(link);
                 }
             };
