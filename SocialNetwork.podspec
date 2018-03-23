@@ -1,6 +1,6 @@
 # git tag 0.1.2
 # git push origin 0.1.2
-# pod lib lint SocialNetwork.podspec --no-clean
+# pod lib lint SocialNetwork.podspec --allow-warnings
 # pod spec lint SocialNetwork.podspec --allow-warnings
 # pod trunk push SocialNetwork.podspec --allow-warnings
 
