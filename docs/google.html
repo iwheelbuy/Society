@@ -1,21 +1,20 @@
 <!DOCTYPE HTML>
 <html>
     <body>
-        
-        <!--        <p id="g"></p>-->
-        
         <script type="text/javascript">
-            
-            
             function getParameterByName(name) {
                 var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
                 return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
             }
-        
-        function requestToken(client_id, redirect_uri, code, scheme) {
+        window.onload = function() {
+            var identifier = getParameterByName('state');
+            var code = getParameterByName('code');
+            var client_id = identifier + '.apps.googleusercontent.com';
+            var redirect_uri = 'https://iwheelbuy.github.io/SocialNetwork/google.html';
+            var scheme = 'com.googleusercontent.apps.' + identifier + ':/';
+            requestToken(client_id, redirect_uri, code, scheme);
             var request = new XMLHttpRequest();
             var body = 'client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&grant_type=authorization_code&code=' + code + '&client_secret=w-PDKd0Ui2xKZ8OVlDFuihQk';
-            <!--            document.getElementById("g").innerHTML = body;-->
             request.open("POST", 'https://www.googleapis.com/oauth2/v4/token', true);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.onreadystatechange = function() {
@@ -30,19 +29,11 @@
             };
             request.send(body);
         }
-        
-        window.onload = function() {
-            var identifier = getParameterByName('state');
-            var code = getParameterByName('code');
-            var client_id = identifier + '.apps.googleusercontent.com';
-            var redirect_uri = 'https://iwheelbuy.github.io/SocialNetwork/google.html';
-            var scheme = 'com.googleusercontent.apps.' + identifier + ':/';
-            requestToken(client_id, redirect_uri, code, scheme)
-        }
-        
-            </script>
+        </script>
     </body>
 </html>
+
+
 
 
 
