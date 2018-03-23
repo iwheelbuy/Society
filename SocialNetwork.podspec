@@ -1,5 +1,5 @@
-# git tag 0.1.1
-# git push origin 0.1.1
+# git tag 0.1.2
+# git push origin 0.1.2
 # pod lib lint SocialNetwork.podspec --no-clean
 # pod spec lint SocialNetwork.podspec --allow-warnings
 # pod trunk push SocialNetwork.podspec --allow-warnings
@@ -7,7 +7,7 @@
 Pod::Spec.new do |s|
 
     s.name                  = 'SocialNetwork'
-    s.version               = '0.1.1'
+    s.version               = '0.1.2'
     s.ios.deployment_target = '9.0'
     s.source_files          = 'Sources/**/*.swift'
     s.homepage              = 'https://github.com/iwheelbuy/SocialNetwork'
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
     s.author                = { 'iWheelBuy' => 'iwheelbuy@gmail.com' }
     s.source                = { :git => 'https://github.com/iwheelbuy/SocialNetwork.git', :tag => s.version.to_s }
     s.summary               = 'SocialNetwork'
-    s.description           = 'SocialNetwork +'
+    s.description           = 'SocialNetwork nice very nice'
     s.cocoapods_version     = '>= 1.4.0'
 
 end
