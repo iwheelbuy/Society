@@ -2,10 +2,7 @@
 <html>
     <body>
         
-        <h2>My First Web Page</h2>
-        <p>My First Paragraph.</p>
-        <p id="g"></p>
-        <p id="h"></p>
+<!--        <p id="g"></p>-->
 
         <script type="text/javascript">
             
@@ -18,11 +15,11 @@
         function requestToken(client_id, redirect_uri, code, scheme) {
             var request = new XMLHttpRequest();
             var body = 'client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&grant_type=authorization_code&code=' + code + '&client_secret=w-PDKd0Ui2xKZ8OVlDFuihQk';
-            document.getElementById("g").innerHTML = body;
+<!--            document.getElementById("g").innerHTML = body;-->
             request.open("POST", 'https://www.googleapis.com/oauth2/v4/token', false);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.onreadystatechange = function() {
-                var token = JSON.parse(this.responseText).id_token;
+                var token = JSON.parse(this.responseText).id_tokenf;
                 var link = scheme + ':/socialnetwork?provider=google&token=' + token;
                 window.location.replace(link);
             };
