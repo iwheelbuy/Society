@@ -123,8 +123,8 @@ public enum SocialNetwork: String {
         public static weak var informationProvider: SocialNetworkGoogleInformationProvider?
         ///
         public static var url: URL {
-            let identifier = informationProvider!.socialNetworkGoogleApplicationIdentifier()
-            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=com.googleusercontent.apps.\(identifier)&scope=email&response_type=code&redirect_uri=https://iwheelbuy.github.io/SocialNetwork/google.html&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
+            let identifier = informationProvider!.socialNetworkGoogleApplicationIdentifier()//com.googleusercontent.apps.
+            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=\(identifier)&scope=email&response_type=code&redirect_uri=https://iwheelbuy.github.io/SocialNetwork/google.html&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
                 fatalError()
             }
             return url
