@@ -16,6 +16,7 @@
 		7A9F80592065400800148D76 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9F805C2065400800148D76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A9F80682065400800148D76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7A9F806F206541D800148D76 /* SocialNetwork */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SocialNetwork; path = ..; sourceTree = "<group>"; };
 		B4D3D8B5D693ABB9D7F5DE35 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		BD847FB27188F32A6C48336C /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -44,6 +45,7 @@
 		7A9F80502065400800148D76 = {
 			isa = PBXGroup;
 			children = (
+				7A9F806F206541D800148D76 /* SocialNetwork */,
 				7A9F805B2065400800148D76 /* Example */,
 				7A9F805A2065400800148D76 /* Products */,
 				51A2A106E7E4A1F7D4949055 /* Pods */,
