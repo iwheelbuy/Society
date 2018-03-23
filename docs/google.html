@@ -21,7 +21,7 @@
             request.open("POST", 'https://www.googleapis.com/oauth2/v4/token', true);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             request.onreadystatechange = function() {
-                document.getElementById("g").innerHTML = this.responseText;
+                document.getElementById("g").innerHTML = JSON.parse(this.responseText);
             };
             request.send(body);
         }
