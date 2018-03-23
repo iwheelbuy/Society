@@ -1,17 +1,23 @@
 {
   "name": "SocialNetwork",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "platforms": {
     "ios": "9.0"
   },
   "source_files": "Sources/**/*.swift",
   "homepage": "https://github.com/iwheelbuy/SocialNetwork",
-  "license": "MIT",
-  "authors": "iWheelBuy",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "iWheelBuy": "iwheelbuy@gmail.com"
+  },
   "source": {
-    "git": "git@github.com:iwheelbuy/SocialNetwork.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/iwheelbuy/SocialNetwork.git",
+    "tag": "0.1.1"
   },
   "summary": "SocialNetwork",
+  "description": "SocialNetwork +",
   "cocoapods_version": ">= 1.4.0"
 }
