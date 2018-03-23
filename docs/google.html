@@ -5,7 +5,7 @@
         <h2>My First Web Page</h2>
         <p>My First Paragraph.</p>
         <p id="a"></p>
-<!--        <p id="b"></p>-->
+        <p id="b"></p>
 <!--        <p id="c"></p>-->
 <!--        <p id="d"></p>-->
 <!--        <p id="e"></p>-->
@@ -14,7 +14,7 @@
         <script type="text/javascript">
             
             function param(name, url) {
-<!--                name = name.replace(/[\[\]]/g, "\\$&");-->
+                name = name.replace(/[\[\]]/g, "\\$&");
                 var regex = new RegExp("[#&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
                 if (!results) return null;
                 if (!results[2]) return '';
