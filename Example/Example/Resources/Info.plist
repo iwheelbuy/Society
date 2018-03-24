@@ -58,6 +58,16 @@
 				<string>ok1264616960</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>SocialNetwork</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>socialnetwork</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
