@@ -4,9 +4,14 @@
         <p id="text"></p>
         <script type="text/javascript">
             window.onload = function() {
-                var components = window.location.href.split('.html#');
-                if (components.length == 2) {
-                    var link = 'socialnetwork:/simplified?' + components[1];
+                var components0 = window.location.href.split('.html#');
+                var components1 = window.location.href.split('.html?#');
+                if (components0.length == 2) {
+                    var link = 'socialnetwork:/simplified?' + components0[1];
+                    document.getElementById("text").innerHTML = link;
+                    window.location.replace(link);
+                } else if (components1.length == 2) {
+                    var link = 'socialnetwork:/simplified?' + components1[1];
                     document.getElementById("text").innerHTML = link;
                     window.location.replace(link);
                 } else {
