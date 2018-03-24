@@ -58,15 +58,17 @@ public protocol SocialNetworkVkontakteInformationProviderSimplified: class {
 }
 
 // MARK: -
-
-///
+/// SocialNetwork
 public enum SocialNetwork: String {
     ///
     public static weak var delegate: SocialNetworkDelegate?
-    ///
+    /// Facebook
     case facebook = "facebook"
+    /// Google
     case google = "google"
+    /// Odnoklassniki
     case odnoklassniki = "odnoklassniki"
+    /// Vkontakte
     case vkontakte = "vkontakte"
     ///
     public static func didProceed(url: URL) -> Bool {
@@ -80,7 +82,6 @@ public enum SocialNetwork: String {
         guard url.scheme?.lowercased() == "socialnetwork" else {
             return false
         }
-        print(url.pathComponents.map({ $0.lowercased() }))
         guard url.pathComponents.map({ $0.lowercased() }).contains("simplified") else {
             return false
         }
@@ -97,24 +98,36 @@ public enum SocialNetwork: String {
         }
         return true
     }
+    ///
+    static func getSimplifiedRedirectUrl() -> String {
+        return "https://iwheelbuy.github.io/SocialNetwork/simplified.html"
+    }
+    ///
+    static func getSimplifiedUrl(path: String, parameters: [String: String]) -> URL {
+        let string = path + "?" + parameters.map({ "\($0.key)=\($0.value)" }).joined(separator: "&")
+        guard let url = URL(string: string.urlQueryConverted ?? string) else {
+            fatalError("Failed to create URL from string: \"\(string)\"")
+        }
+        return url
+    }
     /// Facebook
     public final class Facebook {
         ///
         public static weak var informationProviderSimplified: SocialNetworkFacebookInformationProviderSimplified?
         ///
         public static var url: URL {
-            guard let informationProviderSimplified = informationProviderSimplified else {
-                fatalError("SocialNetworkFacebookInformationProviderSimplified doesn't exist")
+            if let informationProviderSimplified = informationProviderSimplified {
+                let path = "https://www.facebook.com/v2.12/dialog/oauth"
+                let parameters = [
+                    "client_id": informationProviderSimplified.socialNetworkFacebookApplicationIdentifier(),
+                    "redirect_uri": SocialNetwork.getSimplifiedRedirectUrl(),
+                    "state": "facebook",
+                    "response_type": "token",
+                    "scope": "email"
+                ]
+                return SocialNetwork.getSimplifiedUrl(path: path, parameters: parameters)
             }
-            let identifier = informationProviderSimplified.socialNetworkFacebookApplicationIdentifier()
-            let redirect = "https://iwheelbuy.github.io/SocialNetwork/simplified.html"
-            guard let string = "https://www.facebook.com/v2.12/dialog/oauth?client_id=\(identifier)&redirect_uri=\(redirect)&state=facebook&response_type=token&scope=email".urlQueryConverted else {
-                fatalError()
-            }
-            guard let url = URL(string: string) else {
-                fatalError()
-            }
-            return url
+            fatalError("SocialNetworkFacebookInformationProviderSimplified doesn't exist")
         }
     }
     /// Google
@@ -123,15 +136,18 @@ public enum SocialNetwork: String {
         public static weak var informationProviderSimplified: SocialNetworkGoogleInformationProviderSimplified?
         ///
         public static var url: URL {
-            guard let informationProviderSimplified = informationProviderSimplified else {
-                fatalError("SocialNetworkGoogleInformationProviderSimplified doesn't exist")
+            if let informationProviderSimplified = informationProviderSimplified {
+                let path = "https://accounts.google.com/o/oauth2/v2/auth"
+                let parameters = [
+                    "client_id": informationProviderSimplified.socialNetworkGoogleApplicationIdentifier() + ".apps.googleusercontent.com",
+                    "redirect_uri": SocialNetwork.getSimplifiedRedirectUrl(),
+                    "state": "google",
+                    "response_type": "token",
+                    "scope": "email"
+                ]
+                return SocialNetwork.getSimplifiedUrl(path: path, parameters: parameters)
             }
-            let identifier = informationProviderSimplified.socialNetworkGoogleApplicationIdentifier()
-            let redirect = "https://iwheelbuy.github.io/SocialNetwork/simplified.html"
-            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=google&scope=email&response_type=token&redirect_uri=\(redirect)&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
-                fatalError()
-            }
-            return url
+            fatalError("SocialNetworkGoogleInformationProviderSimplified doesn't exist")
         }
     }
     /// Odnoklassniki
@@ -140,15 +156,19 @@ public enum SocialNetwork: String {
         public static weak var informationProviderSimplified: SocialNetworkOdnoklassnikiInformationProviderSimplified?
         ///
         public static var url: URL {
-            guard let informationProviderSimplified = informationProviderSimplified else {
-                fatalError("SocialNetworkOdnoklassnikiInformationProviderSimplified doesn't exist")
+            if let informationProviderSimplified = informationProviderSimplified {
+                let path = "https://connect.ok.ru/oauth/authorize"
+                let parameters = [
+                    "client_id": informationProviderSimplified.socialNetworkOdnoklassnikiApplicationIdentifier(),
+                    "redirect_uri": SocialNetwork.getSimplifiedRedirectUrl(),
+                    "state": "odnoklassniki",
+                    "response_type": "token",
+                    "scope": "GET_EMAIL",
+                    "layout": "m"
+                ]
+                return SocialNetwork.getSimplifiedUrl(path: path, parameters: parameters)
             }
-            let identifier = informationProviderSimplified.socialNetworkOdnoklassnikiApplicationIdentifier()
-            let redirect = "https://iwheelbuy.github.io/SocialNetwork/simplified.html"
-            guard let string = "https://connect.ok.ru/oauth/authorize?state=odnoklassniki&scope=GET_EMAIL&response_type=token&redirect_uri=\(redirect)&client_id=\(identifier)&layout=m".urlQueryConverted, let url = URL(string: string) else {
-                fatalError()
-            }
-            return url
+            fatalError("SocialNetworkOdnoklassnikiInformationProviderSimplified doesn't exist")
         }
     }
     /// Vkontakte
@@ -157,15 +177,20 @@ public enum SocialNetwork: String {
         public static weak var informationProviderSimplified: SocialNetworkVkontakteInformationProviderSimplified?
         ///
         public static var url: URL {
-            guard let informationProviderSimplified = informationProviderSimplified else {
-                fatalError("SocialNetworkVkontakteInformationProviderSimplified doesn't exist")
+            if let informationProviderSimplified = informationProviderSimplified {
+                let path = "https://oauth.vk.com/authorize"
+                let parameters = [
+                    "client_id": informationProviderSimplified.socialNetworkVkontakteApplicationIdentifier(),
+                    "redirect_uri": SocialNetwork.getSimplifiedRedirectUrl(),
+                    "state": "vkontakte",
+                    "response_type": "token",
+                    "scope": "email",
+                    "revoke": "1",
+                    "v": "5.73"
+                ]
+                return SocialNetwork.getSimplifiedUrl(path: path, parameters: parameters)
             }
-            let identifier = informationProviderSimplified.socialNetworkVkontakteApplicationIdentifier()
-            let redirect = "https://iwheelbuy.github.io/SocialNetwork/simplified.html"
-            guard let string = "https://oauth.vk.com/authorize?client_id=\(identifier)&state=vkontakte&redirect_uri=\(redirect)&response_type=token&revoke=1&v=5.73&scope=email".urlQueryConverted, let url = URL(string: string) else {
-                fatalError()
-            }
-            return url
+            fatalError("SocialNetworkVkontakteInformationProviderSimplified doesn't exist")
         }
     }
 }
