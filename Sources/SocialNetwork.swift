@@ -80,7 +80,7 @@ public enum SocialNetwork: String {
         guard url.scheme?.lowercased() == "socialnetwork" else {
             return false
         }
-        print(url..map({ $0.lowercased() }))
+        print(url.pathComponents.map({ $0.lowercased() }))
         guard url.pathComponents.map({ $0.lowercased() }).contains("simplified") else {
             return false
         }
