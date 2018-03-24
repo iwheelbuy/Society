@@ -22,8 +22,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         defer {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
 //                let controller = SFSafariViewController(url: SocialNetwork.Facebook.url)
-//                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
-                let controller = SFSafariViewController(url: SocialNetwork.Odnoklassniki.url)
+                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
+//                let controller = SFSafariViewController(url: SocialNetwork.Odnoklassniki.url)
 //                let controller = SFSafariViewController(url: SocialNetwork.Vkontakte.url)
                 self?.window?.rootViewController?.present(controller, animated: true)
             }

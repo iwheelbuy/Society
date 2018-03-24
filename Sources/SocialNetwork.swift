@@ -127,7 +127,7 @@ public enum SocialNetwork: String {
             return true
         }
     }
-    ///
+    /// Facebook
     public final class Facebook {
         ///
         public static weak var informationProvider: SocialNetworkFacebookInformationProvider?
@@ -138,7 +138,7 @@ public enum SocialNetwork: String {
             }
             let identifier = informationProvider.socialNetworkFacebookApplicationIdentifier()
             let redirect = informationProvider.socialNetworkFacebookRedirectUrl()
-            guard let string = "https://www.facebook.com/v2.12/dialog/oauth?client_id=\(identifier)&redirect_uri=\(redirect)&state=fb\(identifier)&response_type=token".urlQueryConverted else {
+            guard let string = "https://www.facebook.com/v2.12/dialog/oauth?client_id=\(identifier)&redirect_uri=\(redirect)&state=fb\(identifier)&response_type=token&scope=email".urlQueryConverted else {
                 fatalError()
             }
             guard let url = URL(string: string) else {
@@ -147,7 +147,7 @@ public enum SocialNetwork: String {
             return url
         }
     }
-    ///
+    /// Google
     public final class Google {
         ///
         public static weak var informationProvider: SocialNetworkGoogleInformationProvider?
@@ -158,13 +158,16 @@ public enum SocialNetwork: String {
             }
             let identifier = informationProvider.socialNetworkGoogleApplicationIdentifier()
             let redirect = informationProvider.socialNetworkGoogleRedirectUrl()
-            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=\(identifier)&scope=email&response_type=code&redirect_uri=\(redirect)&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
+//            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=\(identifier)&scope=email&response_type=code&redirect_uri=\(redirect)&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
+//                fatalError()
+//            }
+            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=\(identifier)&scope=email&response_type=token&redirect_uri=https://iwheelbuy.github.io/SocialNetwork/blank.html&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
                 fatalError()
             }
             return url
         }
     }
-    ///
+    /// Odnoklassniki
     public final class Odnoklassniki {
         ///
         public static weak var informationProvider: SocialNetworkOdnoklassnikiInformationProvider?
@@ -181,7 +184,7 @@ public enum SocialNetwork: String {
             return url
         }
     }
-    ///
+    /// Vkontakte
     public final class Vkontakte {
         ///
         public static weak var informationProvider: SocialNetworkVkontakteInformationProvider?
@@ -192,7 +195,7 @@ public enum SocialNetwork: String {
             }
             let identifier = informationProvider.socialNetworkVkontakteApplicationIdentifier()
             let redirect = informationProvider.socialNetworkVkontakteRedirectUrl()
-            guard let string = "https://oauth.vk.com/authorize?client_id=\(identifier)&state=vk\(identifier)&redirect_uri=\(redirect)&response_type=token&revoke=1&v=5.73".urlQueryConverted, let url = URL(string: string) else {
+            guard let string = "https://oauth.vk.com/authorize?client_id=\(identifier)&state=vk\(identifier)&redirect_uri=\(redirect)&response_type=token&revoke=1&v=5.73&scope=email".urlQueryConverted, let url = URL(string: string) else {
                 fatalError()
             }
             return url
