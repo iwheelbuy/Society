@@ -13,10 +13,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         SocialNetwork.delegate = self
-        SocialNetwork.Facebook.informationProvider = self
-        SocialNetwork.Google.informationProvider = self
-        SocialNetwork.Odnoklassniki.informationProvider = self
-        SocialNetwork.Vkontakte.informationProvider = self
+        SocialNetwork.Facebook.informationProviderSimplified = self
+        SocialNetwork.Google.informationProviderSimplified = self
+        SocialNetwork.Odnoklassniki.informationProviderSimplified = self
+        SocialNetwork.Vkontakte.informationProviderSimplified = self
         window?.rootViewController = UIViewController()
         window?.makeKeyAndVisible()
         defer {
@@ -59,14 +59,14 @@ extension AppDelegate: SocialNetworkDelegate {
     }
 }
 
-extension AppDelegate: SocialNetworkFacebookInformationProvider {
+extension AppDelegate: SocialNetworkFacebookInformationProviderSimplified {
     
     func socialNetworkFacebookApplicationIdentifier() -> String {
         return "570084943360654"
     }
 }
 
-extension AppDelegate: SocialNetworkGoogleInformationProvider {
+extension AppDelegate: SocialNetworkGoogleInformationProviderSimplified {
     
     func socialNetworkGoogleApplicationIdentifier() -> String {
         return "683698461214-h7n4hki1pagc5d7fvveq4fbb3baolt72"
@@ -77,14 +77,14 @@ extension AppDelegate: SocialNetworkGoogleInformationProvider {
     }
 }
 
-extension AppDelegate: SocialNetworkOdnoklassnikiInformationProvider {
+extension AppDelegate: SocialNetworkOdnoklassnikiInformationProviderSimplified {
     
     func socialNetworkOdnoklassnikiApplicationIdentifier() -> String {
         return "1264616960"
     }
 }
 
-extension AppDelegate: SocialNetworkVkontakteInformationProvider {
+extension AppDelegate: SocialNetworkVkontakteInformationProviderSimplified {
     
     func socialNetworkVkontakteApplicationIdentifier() -> String {
         return "6357688"
