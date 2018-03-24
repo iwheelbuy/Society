@@ -102,17 +102,12 @@ public enum SocialNetwork: String {
     }
     ///
     static func didProceedProvider(url: URL) -> Bool {
-        guard url.pathComponents.contains("socialnetwork") else {
+        guard url.scheme?.lowercased() == "socialnetwork" else {
             return false
         }
         let queryItems = url.queryItems
-        func getProvider(queryItems: [String: String]) -> String? {
-            if let provider = queryItems["provider"] {
-                return provider
-            }
-            return nil
-        }
-        guard let provider = getProvider(queryItems: queryItems) else {
+        print(url)
+        guard let provider = queryItems["provider"] else {
             return false
         }
         guard let socialNetwork = SocialNetwork(rawValue: provider) else {
@@ -157,8 +152,8 @@ public enum SocialNetwork: String {
                 fatalError("SocialNetworkGoogleInformationProvider doesn't exist")
             }
             let identifier = informationProvider.socialNetworkGoogleApplicationIdentifier()
-            let redirect = informationProvider.socialNetworkGoogleRedirectUrl()
-            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=apps.googleusercontent.com.\(identifier)&scope=email&response_type=token&redirect_uri=\(redirect)&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
+            let redirect = "https://iwheelbuy.github.io/SocialNetwork/simplified.html"
+            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=google&scope=email&response_type=token&redirect_uri=\(redirect)&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
                 fatalError()
             }
             return url

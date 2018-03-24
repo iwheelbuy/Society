@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+    <body>
+        <p id="text"></p>
+        <script type="text/javascript">
+            window.onload = function() {
+                var components = window.location.href.split('.html#');
+                if (components.length == 2) {
+                    var link = 'socialnetwork://?' + components[1];
+                    document.getElementById("text").innerHTML = link;
+                    window.location.replace(link);
+                } else {
+                    var link = 'socialnetwork://?';
+                    document.getElementById("text").innerHTML = "empty";
+                    window.location.replace(link);
+                }
+            }
+        </script>
+    </body>
+</html>
+
+
