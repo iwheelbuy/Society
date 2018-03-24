@@ -54,8 +54,8 @@ extension URL {
 
 extension AppDelegate: SocialNetworkDelegate {
     
-    func socialNetwork(socialNetwork: SocialNetwork, didCompleteWithParameters token: String?) {
-        print(socialNetwork.rawValue, token)
+    func socialNetwork(socialNetwork: SocialNetwork, didCompleteWithParameters parameters: [String : String]) {
+        print(socialNetwork.rawValue, parameters)
     }
 }
 
@@ -70,10 +70,6 @@ extension AppDelegate: SocialNetworkGoogleInformationProviderSimplified {
     
     func socialNetworkGoogleApplicationIdentifier() -> String {
         return "683698461214-h7n4hki1pagc5d7fvveq4fbb3baolt72"
-    }
-    
-    func socialNetworkGoogleRedirectUrl() -> String {
-        return "https://iwheelbuy.github.io/SocialNetwork/google.html"
     }
 }
 
