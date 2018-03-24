@@ -15,12 +15,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         SocialNetwork.delegate = self
         SocialNetwork.Facebook.informationProvider = self
         SocialNetwork.Google.informationProvider = self
+        SocialNetwork.Vkontakte.informationProvider = self
         window?.rootViewController = UIViewController()
         window?.makeKeyAndVisible()
         defer {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+//                let controller = SFSafariViewController(url: SocialNetwork.Facebook.url)
 //                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
-                let controller = SFSafariViewController(url: SocialNetwork.Facebook.url)
+                let controller = SFSafariViewController(url: SocialNetwork.Vkontakte.url)
                 self?.window?.rootViewController?.present(controller, animated: true)
             }
         }
@@ -70,5 +72,12 @@ extension AppDelegate: SocialNetworkGoogleInformationProvider {
     
     func socialNetworkGoogleRedirectUrl() -> String {
         return "https://iwheelbuy.github.io/SocialNetwork/google.html"
+    }
+}
+
+extension AppDelegate: SocialNetworkVkontakteInformationProvider {
+    
+    func socialNetworkVkontakteApplicationIdentifier() -> String {
+        return "6357688"
     }
 }

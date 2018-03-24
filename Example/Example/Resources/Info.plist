@@ -38,6 +38,16 @@
 				<string>com.googleusercontent.apps.683698461214-h7n4hki1pagc5d7fvveq4fbb3baolt72</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Vkontakte</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>vk6357688</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
