@@ -26,7 +26,7 @@ extension URL {
 
 public protocol SocialNetworkDelegate: class {
     
-    func socialNetwork(socialNetwork: SocialNetwork, didCompleteWithToken token: String?)
+    func socialNetwork(socialNetwork: SocialNetwork, didCompleteWithParameters parameters: [String: String])
 }
 
 // MARK: - SocialNetworkFacebookInformationProviderSimplified
@@ -70,32 +70,31 @@ public enum SocialNetwork: String {
     case vkontakte = "vkontakte"
     ///
     public static func didProceed(url: URL) -> Bool {
-        if didProceedProvider(url: url) {
+        if didProceedSimplified(url: url) {
             return true
         }
         return false
     }
     ///
-    static func didProceedProvider(url: URL) -> Bool {
+    static func didProceedSimplified(url: URL) -> Bool {
         guard url.scheme?.lowercased() == "socialnetwork" else {
             return false
         }
-        let queryItems = url.queryItems
-        print(url)
-        guard let provider = queryItems["provider"] else {
+        guard url.pathComponents.map({ $0.lowercased() }).contains("simplified") else {
             return false
+        }
+        var parameters = url.queryItems
+        guard let provider = parameters["state"] else {
+            fatalError("\"state\" is missing")
         }
         guard let socialNetwork = SocialNetwork(rawValue: provider) else {
-            return false
+            fatalError("SocialNetwork doesn't contain \"\(provider)\" provider")
         }
-        switch socialNetwork {
-        case .facebook, .google, .odnoklassniki, .vkontakte:
-            let token = queryItems["token"]
-            defer {
-                SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithToken: token)
-            }
-            return true
+        parameters["state"] = nil
+        defer {
+            SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
         }
+        return true
     }
     /// Facebook
     public final class Facebook {

@@ -54,7 +54,7 @@ extension URL {
 
 extension AppDelegate: SocialNetworkDelegate {
     
-    func socialNetwork(socialNetwork: SocialNetwork, didCompleteWithToken token: String?) {
+    func socialNetwork(socialNetwork: SocialNetwork, didCompleteWithParameters token: String?) {
         print(socialNetwork.rawValue, token)
     }
 }
