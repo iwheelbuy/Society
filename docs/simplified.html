@@ -6,11 +6,11 @@
             window.onload = function() {
                 var components = window.location.href.split('.html#');
                 if (components.length == 2) {
-                    var link = 'socialnetwork://simplified?' + components[1];
+                    var link = 'socialnetwork://simplified/?' + components[1];
                     document.getElementById("text").innerHTML = link;
                     window.location.replace(link);
                 } else {
-                    var link = 'socialnetwork://simplified?';
+                    var link = 'socialnetwork://simplified/?';
                     document.getElementById("text").innerHTML = "empty";
                     window.location.replace(link);
                 }
