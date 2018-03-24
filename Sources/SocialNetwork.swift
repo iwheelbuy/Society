@@ -158,13 +158,7 @@ public enum SocialNetwork: String {
             }
             let identifier = informationProvider.socialNetworkGoogleApplicationIdentifier()
             let redirect = informationProvider.socialNetworkGoogleRedirectUrl()
-//            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=\(identifier)&scope=email&response_type=code&redirect_uri=\(redirect)&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
-//                fatalError()
-//            }
-//            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=\(identifier)&scope=email&response_type=token&redirect_uri=https://iwheelbuy.github.io/SocialNetwork/blank.html&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
-//                fatalError()
-//            }
-            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=apps.googleusercontent.com.\(identifier)&scope=email&response_type=token&redirect_uri=\(redirect)&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
+            guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=\(identifier)&scope=email&response_type=token&redirect_uri=\(redirect)&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
                 fatalError()
             }
             return url
