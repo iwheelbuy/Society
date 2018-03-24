@@ -11,7 +11,7 @@
                 return decodeURIComponent(results[2].replace(/\+/g, " "));
             }
         window.onload = function() {
-            var scheme = 'com.googleusercontent.apps.' + param('state') + ':/';
+            var scheme = param('state')
             var token = param('access_token')
             if (token) {
                 var link = scheme + ':/socialnetwork?provider=google&token=' + token;
