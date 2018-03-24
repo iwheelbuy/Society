@@ -52,6 +52,21 @@ public protocol SocialNetworkGoogleInformationProvider: class {
     func socialNetworkGoogleRedirectUrl() -> String
 }
 
+// MARK: - SocialNetworkOdnoklassnikiInformationProvider
+
+public protocol SocialNetworkOdnoklassnikiInformationProvider: class {
+    
+    func socialNetworkOdnoklassnikiApplicationIdentifier() -> String
+    func socialNetworkOdnoklassnikiRedirectUrl() -> String
+}
+
+public extension SocialNetworkOdnoklassnikiInformationProvider {
+    
+    func socialNetworkOdnoklassnikiRedirectUrl() -> String {
+        return "https://iwheelbuy.github.io/SocialNetwork/odnoklassniki.html"
+    }
+}
+
 // MARK: - SocialNetworkVkontakteInformationProvider
 
 public protocol SocialNetworkVkontakteInformationProvider: class {
@@ -76,45 +91,14 @@ public enum SocialNetwork: String {
     ///
     case facebook = "facebook"
     case google = "google"
+    case odnoklassniki = "odnoklassniki"
     case vkontakte = "vkontakte"
     ///
     public static func didProceed(url: URL) -> Bool {
-        guard url.pathComponents.contains("socialnetwork") else {
-            return false
-        }
-        let queryItems = url.queryItems
-        func getProvider(queryItems: [String: String]) -> String? {
-            if let provider = queryItems["provider"] {
-                return provider
-            }
-            return nil
-        }
-        guard let provider = getProvider(queryItems: queryItems) else {
-            return false
-        }
-        guard let socialNetwork = SocialNetwork(rawValue: provider) else {
-            return false
-        }
-        switch socialNetwork {
-        case .facebook:
-            let token = queryItems["token"]
-            defer {
-                SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithToken: token)
-            }
-            return true
-        case .google:
-            let token = queryItems["token"]
-            defer {
-                SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithToken: token)
-            }
-            return true
-        case .vkontakte:
-            let token = queryItems["token"]
-            defer {
-                SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithToken: token)
-            }
+        if didProceedProvider(url: url) {
             return true
         }
+        return false
     }
     ///
     static func didProceedProvider(url: URL) -> Bool {
@@ -135,7 +119,7 @@ public enum SocialNetwork: String {
             return false
         }
         switch socialNetwork {
-        case .facebook, .google, .vkontakte:
+        case .facebook, .google, .odnoklassniki, .vkontakte:
             let token = queryItems["token"]
             defer {
                 SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithToken: token)
@@ -175,6 +159,23 @@ public enum SocialNetwork: String {
             let identifier = informationProvider.socialNetworkGoogleApplicationIdentifier()
             let redirect = informationProvider.socialNetworkGoogleRedirectUrl()
             guard let string = "https://accounts.google.com/o/oauth2/v2/auth?state=\(identifier)&scope=email&response_type=code&redirect_uri=\(redirect)&client_id=\(identifier).apps.googleusercontent.com".urlQueryConverted, let url = URL(string: string) else {
+                fatalError()
+            }
+            return url
+        }
+    }
+    ///
+    public final class Odnoklassniki {
+        ///
+        public static weak var informationProvider: SocialNetworkOdnoklassnikiInformationProvider?
+        ///
+        public static var url: URL {
+            guard let informationProvider = informationProvider else {
+                fatalError("SocialNetworkOdnoklassnikiInformationProvider doesn't exist")
+            }
+            let identifier = informationProvider.socialNetworkOdnoklassnikiApplicationIdentifier()
+            let redirect = informationProvider.socialNetworkOdnoklassnikiRedirectUrl()
+            guard let string = "https://connect.ok.ru/oauth/authorize?state=ok\(identifier)&scope=GET_EMAIL&response_type=token&redirect_uri=\(redirect)&client_id=\(identifier)&layout=m".urlQueryConverted, let url = URL(string: string) else {
                 fatalError()
             }
             return url
