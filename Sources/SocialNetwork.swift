@@ -174,7 +174,7 @@ public enum SocialNetwork: String {
                 fatalError("SocialNetworkOdnoklassnikiInformationProvider doesn't exist")
             }
             let identifier = informationProvider.socialNetworkOdnoklassnikiApplicationIdentifier()
-            let redirect = informationProvider.socialNetworkOdnoklassnikiRedirectUrl()
+            let redirect = "https://iwheelbuy.github.io/SocialNetwork/blank.html"//informationProvider.socialNetworkOdnoklassnikiRedirectUrl()
             guard let string = "https://connect.ok.ru/oauth/authorize?state=ok\(identifier)&scope=GET_EMAIL&response_type=token&redirect_uri=\(redirect)&client_id=\(identifier)&layout=m".urlQueryConverted, let url = URL(string: string) else {
                 fatalError()
             }
