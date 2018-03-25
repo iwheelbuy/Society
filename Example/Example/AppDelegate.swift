@@ -40,14 +40,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 //                    self?.window?.rootViewController?.present(controller, animated: true)
 //                }
                 //
-                switch SocialNetwork.Vkontakte.appExists {
-                case true:
-                    UIApplication.shared.openURL(SocialNetwork.Vkontakte.appUrl)
-                case false:
-                    let controller = SFSafariViewController(url: SocialNetwork.Vkontakte.oauthUrl)
-                    self?.window?.rootViewController?.present(controller, animated: true)
-                }
-
+//                switch SocialNetwork.Vkontakte.appExists {
+//                case true:
+//                    UIApplication.shared.openURL(SocialNetwork.Vkontakte.appUrl)
+//                case false:
+//                    let controller = SFSafariViewController(url: SocialNetwork.Vkontakte.oauthUrl)
+//                    self?.window?.rootViewController?.present(controller, animated: true)
+//                }
             }
         }
         return true
