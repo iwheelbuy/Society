@@ -332,6 +332,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = HYE8D62W5V;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit/FBSDKCoreKit\\\" \"${PODS_ROOT}/Headers/Public/FBSDKCoreKit\\\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FacebookSDK\\\" \"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\\\"",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.au.ios;
@@ -349,6 +353,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit/FBSDKCoreKit\\\" \"${PODS_ROOT}/Headers/Public/FBSDKCoreKit\\\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FacebookSDK\\\" \"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\\\"",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.au.ios;
