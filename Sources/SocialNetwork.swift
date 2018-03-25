@@ -131,6 +131,9 @@ public extension SocialNetwork {
         if didProceedNativeOdnoklassnikiSimplified(url: url) {
             return true
         }
+        if didProceedNativeVkontakteSimplified(url: url) {
+            return true
+        }
         return false
     }
     ///
@@ -143,7 +146,10 @@ public extension SocialNetwork {
             return false
         }
         defer {
-            let parameters = url.absoluteString.replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?").queryItems
+            let parameters = url
+                .absoluteString
+                .replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?")
+                .queryItems
             SocialNetwork.delegate?.socialNetwork(socialNetwork: SocialNetwork.facebook, didCompleteWithParameters: parameters)
         }
         return true
@@ -158,8 +164,29 @@ public extension SocialNetwork {
             return false
         }
         defer {
-            let parameters = url.absoluteString.replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?").queryItems
+            let parameters = url
+                .absoluteString
+                .replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?")
+                .queryItems
             SocialNetwork.delegate?.socialNetwork(socialNetwork: SocialNetwork.odnoklassniki, didCompleteWithParameters: parameters)
+        }
+        return true
+    }
+    ///
+    static func didProceedNativeVkontakteSimplified(url: URL) -> Bool {
+        guard let provider = SocialNetwork.Vkontakte.dataSource else {
+            return false
+        }
+        let scheme = "vk" + provider.socialNetworkVkontakteClientIdentifier()
+        guard scheme == url.scheme else {
+            return false
+        }
+        defer {
+            let parameters = url
+                .absoluteString
+                .replacingOccurrences(of: scheme + "://authorize?#", with: scheme + "://authorize?")
+                .queryItems
+            SocialNetwork.delegate?.socialNetwork(socialNetwork: SocialNetwork.vkontakte, didCompleteWithParameters: parameters)
         }
         return true
     }
@@ -181,14 +208,14 @@ public extension SocialNetwork {
                     "redirect_uri": urlRedirectSimplified,
                     "state": "facebook",
                     "response_type": "token",
-                    "scope": "email"
+                    "scope": "public_profile"
                 ]
                 return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
             }
             fatalError("SocialNetworkFacebookDataSource doesn't exist")
         }
         ///
-        public static var officialApplicationExists: Bool {
+        public static var appExists: Bool {
             return ["fb://", "fbapi://", "fbauth://", "fbauth2://"]
                 .flatMap({ Foundation.URL(string: $0) })
                 .map({ UIApplication.shared.canOpenURL($0) })
@@ -196,7 +223,7 @@ public extension SocialNetwork {
                 .count == 0
         }
         ///
-        public static var officialApplicationUrl: URL {
+        public static var appUrl: URL {
             if let dataSource = dataSource {
                 let path = "fbauth://authorize"
                 let parameters = [
@@ -204,7 +231,7 @@ public extension SocialNetwork {
                     "sdk": "ios",
                     "return_scopes": "true",
                     "redirect_uri": "fbconnect://success",
-                    "scope": "email",
+                    "scope": "public_profile",
                     "display": "touch",
                     "response_type": "token",
                     "legacy_override": "v2.6",
@@ -233,7 +260,7 @@ public extension SocialNetwork {
                     "redirect_uri": urlRedirectSimplified,
                     "state": "google",
                     "response_type": "token",
-                    "scope": "email"
+                    "scope": "profile"
                 ]
                 return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
             }
@@ -266,7 +293,7 @@ public extension SocialNetwork {
             fatalError("SocialNetworkOdnoklassnikiDataSource doesn't exist")
         }
         ///
-        public static var officialApplicationExists: Bool {
+        public static var appExists: Bool {
             return ["odnoklassniki://", "okauth://"]
                 .flatMap({ Foundation.URL(string: $0) })
                 .map({ UIApplication.shared.canOpenURL($0) })
@@ -274,7 +301,7 @@ public extension SocialNetwork {
                 .count == 0
         }
         ///
-        public static var officialApplicationUrl: URL {
+        public static var appUrl: URL {
             if let dataSource = dataSource {
                 let path = "okauth://authorize"
                 let parameters = [
@@ -299,7 +326,7 @@ public extension SocialNetwork {
         ///
         public static weak var dataSource: SocialNetworkVkontakteDataSource?
         ///
-        public static var url: URL {
+        public static var oauthUrl: URL {
             if let dataSource = dataSource {
                 let path = "https://oauth.vk.com/authorize"
                 let parameters = [
@@ -307,9 +334,30 @@ public extension SocialNetwork {
                     "redirect_uri": urlRedirectSimplified,
                     "state": "vkontakte",
                     "response_type": "token",
-                    "scope": "email",
                     "revoke": "1",
                     "v": "5.73"
+                ]
+                return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
+            }
+            fatalError("SocialNetworkVkontakteDataSource doesn't exist")
+        }
+        ///
+        public static var appExists: Bool {
+            return ["vk://", "vk-share://", "vkauthorize://"]
+                .flatMap({ Foundation.URL(string: $0) })
+                .map({ UIApplication.shared.canOpenURL($0) })
+                .filter({ $0 == false })
+                .count == 0
+        }
+        ///
+        public static var appUrl: URL {
+            if let dataSource = dataSource {
+                let path = "vkauthorize://authorize"
+                let parameters = [
+                    "client_id": dataSource.socialNetworkVkontakteClientIdentifier(),
+                    "revoke": "1",
+                    "v": "5.73",
+                    "sdk_version": "1.4.6"
                 ]
                 return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
             }

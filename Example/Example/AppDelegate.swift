@@ -21,26 +21,33 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         defer {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 //
-//                switch SocialNetwork.Facebook.officialApplicationExists {
+//                switch SocialNetwork.Facebook.appExists {
 //                case true:
-//                    UIApplication.shared.openURL(SocialNetwork.Facebook.officialApplicationUrl)
+//                    UIApplication.shared.openURL(SocialNetwork.Facebook.appUrl)
 //                case false:
 //                    let controller = SFSafariViewController(url: SocialNetwork.Facebook.oauthUrl)
 //                    self?.window?.rootViewController?.present(controller, animated: true)
 //                }
                 //
 //                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
+//                self?.window?.rootViewController?.present(controller, animated: true)
                 //
-                switch SocialNetwork.Odnoklassniki.officialApplicationExists {
+//                switch SocialNetwork.Odnoklassniki.appExists {
+//                case true:
+//                    UIApplication.shared.openURL(SocialNetwork.Odnoklassniki.appUrl)
+//                case false:
+//                    let controller = SFSafariViewController(url: SocialNetwork.Odnoklassniki.oauthUrl)
+//                    self?.window?.rootViewController?.present(controller, animated: true)
+//                }
+                //
+                switch SocialNetwork.Vkontakte.appExists {
                 case true:
-                    UIApplication.shared.openURL(SocialNetwork.Odnoklassniki.officialApplicationUrl)
+                    UIApplication.shared.openURL(SocialNetwork.Vkontakte.appUrl)
                 case false:
-                    let controller = SFSafariViewController(url: SocialNetwork.Odnoklassniki.oauthUrl)
+                    let controller = SFSafariViewController(url: SocialNetwork.Vkontakte.oauthUrl)
                     self?.window?.rootViewController?.present(controller, animated: true)
                 }
-                //
-//                let controller = SFSafariViewController(url: SocialNetwork.Vkontakte.url)
-                
+
             }
         }
         return true

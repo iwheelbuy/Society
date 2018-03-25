@@ -29,6 +29,9 @@
         <string>odnoklassniki</string>
         <string>okauth</string>
         <string>ok1264616960</string>
+        <string>vk</string>
+        <string>vk-share</string>
+        <string>vkauthorize</string>
     </array>
 	<key>CFBundleURLTypes</key>
 	<array>
