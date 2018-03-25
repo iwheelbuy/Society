@@ -26,6 +26,9 @@
         <string>fbapi</string>
         <string>fbauth</string>
         <string>fbauth2</string>
+        <string>odnoklassniki</string>
+        <string>okauth</string>
+        <string>ok1264616960</string>
     </array>
 	<key>CFBundleURLTypes</key>
 	<array>

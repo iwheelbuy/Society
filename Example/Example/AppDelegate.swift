@@ -20,15 +20,25 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         defer {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                switch SocialNetwork.Facebook.nativeExists {
+                //
+//                switch SocialNetwork.Facebook.officialApplicationExists {
+//                case true:
+//                    UIApplication.shared.openURL(SocialNetwork.Facebook.officialApplicationUrl)
+//                case false:
+//                    let controller = SFSafariViewController(url: SocialNetwork.Facebook.oauthUrl)
+//                    self?.window?.rootViewController?.present(controller, animated: true)
+//                }
+                //
+//                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
+                //
+                switch SocialNetwork.Odnoklassniki.officialApplicationExists {
                 case true:
-                    UIApplication.shared.openURL(SocialNetwork.Facebook.nativeUrl)
+                    UIApplication.shared.openURL(SocialNetwork.Odnoklassniki.officialApplicationUrl)
                 case false:
-                    let controller = SFSafariViewController(url: SocialNetwork.Facebook.oauthUrl)
+                    let controller = SFSafariViewController(url: SocialNetwork.Odnoklassniki.oauthUrl)
                     self?.window?.rootViewController?.present(controller, animated: true)
                 }
-//                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
-//                let controller = SFSafariViewController(url: SocialNetwork.Odnoklassniki.url)
+                //
 //                let controller = SFSafariViewController(url: SocialNetwork.Vkontakte.url)
                 
             }

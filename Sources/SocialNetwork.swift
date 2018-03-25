@@ -29,7 +29,7 @@ extension URL {
         return items
             .reduce(into: [String:String]()) { (dictionary, item) in
                 dictionary[item.name] = item.value
-            }
+        }
     }
 }
 
@@ -128,6 +128,9 @@ public extension SocialNetwork {
         if didProceedNativeFacebookSimplified(url: url) {
             return true
         }
+        if didProceedNativeOdnoklassnikiSimplified(url: url) {
+            return true
+        }
         return false
     }
     ///
@@ -142,6 +145,21 @@ public extension SocialNetwork {
         defer {
             let parameters = url.absoluteString.replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?").queryItems
             SocialNetwork.delegate?.socialNetwork(socialNetwork: SocialNetwork.facebook, didCompleteWithParameters: parameters)
+        }
+        return true
+    }
+    ///
+    static func didProceedNativeOdnoklassnikiSimplified(url: URL) -> Bool {
+        guard let provider = SocialNetwork.Odnoklassniki.dataSource else {
+            return false
+        }
+        let scheme = "ok" + provider.socialNetworkOdnoklassnikiClientIdentifier()
+        guard scheme == url.scheme else {
+            return false
+        }
+        defer {
+            let parameters = url.absoluteString.replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?").queryItems
+            SocialNetwork.delegate?.socialNetwork(socialNetwork: SocialNetwork.odnoklassniki, didCompleteWithParameters: parameters)
         }
         return true
     }
@@ -169,7 +187,8 @@ public extension SocialNetwork {
             }
             fatalError("SocialNetworkFacebookDataSource doesn't exist")
         }
-        public static var nativeExists: Bool {
+        ///
+        public static var officialApplicationExists: Bool {
             return ["fb://", "fbapi://", "fbauth://", "fbauth2://"]
                 .flatMap({ Foundation.URL(string: $0) })
                 .map({ UIApplication.shared.canOpenURL($0) })
@@ -177,14 +196,14 @@ public extension SocialNetwork {
                 .count == 0
         }
         ///
-        public static var nativeUrl: URL {
+        public static var officialApplicationUrl: URL {
             if let dataSource = dataSource {
                 let path = "fbauth://authorize"
                 let parameters = [
                     "client_id": dataSource.socialNetworkFacebookClientIdentifier(),
                     "sdk": "ios",
                     "return_scopes": "true",
-                    "redirect_uri": "fbconnect%3A%2F%2Fsuccess",
+                    "redirect_uri": "fbconnect://success",
                     "scope": "email",
                     "display": "touch",
                     "response_type": "token",
@@ -231,7 +250,7 @@ public extension SocialNetwork {
         ///
         public static weak var dataSource: SocialNetworkOdnoklassnikiDataSource?
         ///
-        public static var url: URL {
+        public static var oauthUrl: URL {
             if let dataSource = dataSource {
                 let path = "https://connect.ok.ru/oauth/authorize"
                 let parameters = [
@@ -239,7 +258,30 @@ public extension SocialNetwork {
                     "redirect_uri": urlRedirectSimplified,
                     "state": "odnoklassniki",
                     "response_type": "token",
-                    "scope": "GET_EMAIL",
+                    "scope": "VALUABLE_ACCESS",
+                    "layout": "m"
+                ]
+                return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
+            }
+            fatalError("SocialNetworkOdnoklassnikiDataSource doesn't exist")
+        }
+        ///
+        public static var officialApplicationExists: Bool {
+            return ["odnoklassniki://", "okauth://"]
+                .flatMap({ Foundation.URL(string: $0) })
+                .map({ UIApplication.shared.canOpenURL($0) })
+                .filter({ $0 == false })
+                .count == 0
+        }
+        ///
+        public static var officialApplicationUrl: URL {
+            if let dataSource = dataSource {
+                let path = "okauth://authorize"
+                let parameters = [
+                    "client_id": dataSource.socialNetworkOdnoklassnikiClientIdentifier(),
+                    "response_type": "token",
+                    "redirect_uri": "ok" + dataSource.socialNetworkOdnoklassnikiClientIdentifier() + "://authorize",
+                    "scope": "VALUABLE_ACCESS",
                     "layout": "m"
                 ]
                 return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
