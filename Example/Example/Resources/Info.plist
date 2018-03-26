@@ -16,23 +16,6 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>0.1.3</string>
-	<key>FacebookAppID</key>
-	<string>174823229982106</string>
-	<key>FacebookDisplayName</key>
-	<string>agasdg</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fb</string>
-        <string>fbapi</string>
-        <string>fbauth</string>
-        <string>fbauth2</string>
-        <string>odnoklassniki</string>
-        <string>okauth</string>
-        <string>ok1264616960</string>
-        <string>vk</string>
-        <string>vk-share</string>
-        <string>vkauthorize</string>
-    </array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -94,6 +77,23 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>174823229982106</string>
+	<key>FacebookDisplayName</key>
+	<string>agasdg</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fb</string>
+		<string>fbapi</string>
+		<string>fbauth</string>
+		<string>fbauth2</string>
+		<string>odnoklassniki</string>
+		<string>okauth</string>
+		<string>ok1264616960</string>
+		<string>vk</string>
+		<string>vk-share</string>
+		<string>vkauthorize</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>

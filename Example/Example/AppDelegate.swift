@@ -21,13 +21,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         defer {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 //
-//                switch SocialNetwork.Facebook.appExists {
-//                case true:
-//                    UIApplication.shared.openURL(SocialNetwork.Facebook.appUrl)
-//                case false:
-//                    let controller = SFSafariViewController(url: SocialNetwork.Facebook.oauthUrl)
-//                    self?.window?.rootViewController?.present(controller, animated: true)
-//                }
+                switch SocialNetwork.Facebook.appExists {
+                case true:
+                    UIApplication.shared.openURL(SocialNetwork.Facebook.appUrl)
+                case false:
+                    let controller = SFSafariViewController(url: SocialNetwork.Facebook.oauthUrl)
+                    self?.window?.rootViewController?.present(controller, animated: true)
+                }
                 //
 //                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
 //                self?.window?.rootViewController?.present(controller, animated: true)

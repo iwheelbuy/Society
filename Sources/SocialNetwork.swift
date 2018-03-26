@@ -20,6 +20,14 @@ extension String {
     }
 }
 
+func async(_ block: @escaping () -> ()) {
+    DispatchQueue.global().async {
+        DispatchQueue.main.async {
+            block()
+        }
+    }
+}
+
 extension URL {
     
     var queryItems: [String: String] {
@@ -31,6 +39,14 @@ extension URL {
                 dictionary[item.name] = item.value
         }
     }
+}
+
+func getUrlFrom(path: String, parameters: [String: String]) -> URL {
+    let string = path + "?" + parameters.map({ "\($0.key)=\($0.value)" }).joined(separator: "&")
+    guard let url = URL(string: string.urlQueryConverted ?? string) else {
+        fatalError("Failed to create URL from string: \"\(string)\"")
+    }
+    return url
 }
 
 // MARK: - SocialNetworkDelegate
@@ -81,13 +97,57 @@ public enum SocialNetwork: String {
     case odnoklassniki = "odnoklassniki"
     /// Vkontakte
     case vkontakte = "vkontakte"
-    ///
-    static func getUrlFrom(path: String, parameters: [String: String]) -> URL {
-        let string = path + "?" + parameters.map({ "\($0.key)=\($0.value)" }).joined(separator: "&")
-        guard let url = URL(string: string.urlQueryConverted ?? string) else {
-            fatalError("Failed to create URL from string: \"\(string)\"")
+    /// Official application exists and allows to authorize
+    public var appExists: Bool {
+        switch self {
+        case .facebook:
+            return SocialNetwork.Facebook.appExists
+        case .google:
+            return false
+        case .odnoklassniki:
+            return SocialNetwork.Odnoklassniki.appExists
+        case .vkontakte:
+            return SocialNetwork.Vkontakte.appExists
         }
-        return url
+    }
+    /// Official application authorization url
+    public var appUrl: URL {
+        switch self {
+        case .facebook:
+            return SocialNetwork.Facebook.appUrl
+        case .google:
+            fatalError("Goodle doesn't allow to open its official application. Does it? PR please")
+        case .odnoklassniki:
+            return SocialNetwork.Odnoklassniki.appUrl
+        case .vkontakte:
+            return SocialNetwork.Vkontakte.appUrl
+        }
+    }
+    /// Oauth url
+    public var oauthUrl: URL {
+        switch self {
+        case .facebook:
+            return SocialNetwork.Facebook.oauthUrl
+        case .google:
+            return SocialNetwork.Google.oauthUrl
+        case .odnoklassniki:
+            return SocialNetwork.Odnoklassniki.oauthUrl
+        case .vkontakte:
+            return SocialNetwork.Vkontakte.oauthUrl
+        }
+    }
+    /// Get access token from parameters
+    public func getToken(parameters: [String: String]) -> String? {
+        switch self {
+        case .facebook:
+            return parameters["access_token"]
+        case .google:
+            return parameters["access_token"]
+        case .odnoklassniki:
+            return parameters["access_token"]
+        case .vkontakte:
+            return parameters["access_token"]
+        }
     }
 }
 
@@ -118,7 +178,7 @@ public extension SocialNetwork {
             fatalError("SocialNetwork doesn't contain \"\(provider)\" provider")
         }
         parameters["state"] = nil
-        defer {
+        async {
             SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
         }
         return true
@@ -145,11 +205,11 @@ public extension SocialNetwork {
         guard scheme == url.scheme else {
             return false
         }
-        defer {
-            let parameters = url
-                .absoluteString
-                .replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?")
-                .queryItems
+        let parameters = url
+            .absoluteString
+            .replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?")
+            .queryItems
+        async {
             SocialNetwork.delegate?.socialNetwork(socialNetwork: SocialNetwork.facebook, didCompleteWithParameters: parameters)
         }
         return true
@@ -163,11 +223,11 @@ public extension SocialNetwork {
         guard scheme == url.scheme else {
             return false
         }
-        defer {
-            let parameters = url
-                .absoluteString
-                .replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?")
-                .queryItems
+        let parameters = url
+            .absoluteString
+            .replacingOccurrences(of: scheme + "://authorize#", with: scheme + "://authorize?")
+            .queryItems
+        async {
             SocialNetwork.delegate?.socialNetwork(socialNetwork: SocialNetwork.odnoklassniki, didCompleteWithParameters: parameters)
         }
         return true
@@ -181,11 +241,11 @@ public extension SocialNetwork {
         guard scheme == url.scheme else {
             return false
         }
-        defer {
-            let parameters = url
-                .absoluteString
-                .replacingOccurrences(of: scheme + "://authorize?#", with: scheme + "://authorize?")
-                .queryItems
+        let parameters = url
+            .absoluteString
+            .replacingOccurrences(of: scheme + "://authorize?#", with: scheme + "://authorize?")
+            .queryItems
+        async {
             SocialNetwork.delegate?.socialNetwork(socialNetwork: SocialNetwork.vkontakte, didCompleteWithParameters: parameters)
         }
         return true
@@ -210,7 +270,7 @@ public extension SocialNetwork {
                     "response_type": "token",
                     "scope": "public_profile"
                 ]
-                return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
+                return getUrlFrom(path: path, parameters: parameters)
             }
             fatalError("SocialNetworkFacebookDataSource doesn't exist")
         }
@@ -237,7 +297,7 @@ public extension SocialNetwork {
                     "legacy_override": "v2.6",
                     "sdk_version": "4.7"
                 ]
-                return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
+                return getUrlFrom(path: path, parameters: parameters)
             }
             fatalError("SocialNetworkFacebookDataSource doesn't exist")
         }
@@ -252,7 +312,7 @@ public extension SocialNetwork {
         ///
         public static weak var dataSource: SocialNetworkGoogleDataSource?
         ///
-        public static var url: URL {
+        public static var oauthUrl: URL {
             if let dataSource = dataSource {
                 let path = "https://accounts.google.com/o/oauth2/v2/auth"
                 let parameters = [
@@ -262,7 +322,7 @@ public extension SocialNetwork {
                     "response_type": "token",
                     "scope": "profile"
                 ]
-                return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
+                return getUrlFrom(path: path, parameters: parameters)
             }
             fatalError("SocialNetworkGoogleDataSource doesn't exist")
         }
@@ -288,7 +348,7 @@ public extension SocialNetwork {
                     "scope": "VALUABLE_ACCESS",
                     "layout": "m"
                 ]
-                return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
+                return getUrlFrom(path: path, parameters: parameters)
             }
             fatalError("SocialNetworkOdnoklassnikiDataSource doesn't exist")
         }
@@ -311,7 +371,7 @@ public extension SocialNetwork {
                     "scope": "VALUABLE_ACCESS",
                     "layout": "m"
                 ]
-                return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
+                return getUrlFrom(path: path, parameters: parameters)
             }
             fatalError("SocialNetworkOdnoklassnikiDataSource doesn't exist")
         }
@@ -337,7 +397,7 @@ public extension SocialNetwork {
                     "revoke": "1",
                     "v": "5.73"
                 ]
-                return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
+                return getUrlFrom(path: path, parameters: parameters)
             }
             fatalError("SocialNetworkVkontakteDataSource doesn't exist")
         }
@@ -359,7 +419,7 @@ public extension SocialNetwork {
                     "v": "5.73",
                     "sdk_version": "1.4.6"
                 ]
-                return SocialNetwork.getUrlFrom(path: path, parameters: parameters)
+                return getUrlFrom(path: path, parameters: parameters)
             }
             fatalError("SocialNetworkVkontakteDataSource doesn't exist")
         }
