@@ -195,7 +195,7 @@ public extension SocialNetwork {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: [])
             } catch let error {
-                fatalError("\"error\"")
+                fatalError("\(error)")
             }
         }()
         guard let state = object as? [String: String] else {
