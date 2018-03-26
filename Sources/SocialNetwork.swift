@@ -37,7 +37,7 @@ extension URL {
         return items
             .reduce(into: [String:String]()) { (dictionary, item) in
                 dictionary[item.name] = item.value
-        }
+            }
     }
 }
 
@@ -156,7 +156,7 @@ public enum SocialNetwork: String {
         case .facebook:
             return parameters["access_token"]
         case .google:
-            return parameters["access_token"]
+            return parameters["id_token"] ?? parameters["access_token"]
         case .odnoklassniki:
             return parameters["access_token"]
         case .vkontakte:
@@ -209,8 +209,11 @@ public extension SocialNetwork {
         }
         parameters["state"] = nil
         if socialNetwork == .google, state["jwt"] != nil {
-            async {
-                SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
+            guard let code = parameters["code"] else {
+                fatalError("\"code\" is missing")
+            }
+            SocialNetwork.Google.exchangeForParameters(code: code) { (parameters) in
+                SocialNetwork.delegate?.socialNetwork(socialNetwork: .google, didCompleteWithParameters: parameters)
             }
         } else {
             async {
@@ -374,6 +377,46 @@ public extension SocialNetwork {
                 }
             }
             fatalError("SocialNetworkGoogleDataSource doesn't exist")
+        }
+        public static func exchangeForParameters(code: String, _ completion: @escaping ([String: String]) -> ()) {
+            DispatchQueue.global(qos: .userInteractive).async {
+                let parameters = [
+                    "code": code,
+                    "client_id": dataSource!.socialNetworkGoogleClientIdentifier() + ".apps.googleusercontent.com",
+                    "client_secret": dataSource!.socialNetworkGoogleClientSecret()!,
+                    "redirect_uri": urlRedirectSimplified,
+                    "grant_type": "authorization_code"
+                ]
+                let url = URL(string: "https://www.googleapis.com/oauth2/v4/token")!
+                var request = URLRequest(url: url)
+                request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                request.httpMethod = "POST"
+                request.httpBody = parameters.map({ "\($0.key)=\($0.value)" }).joined(separator: "&").data(using: .utf8)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, _, _) in
+                    guard let data = data else {
+                        return
+                    }
+                    guard let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
+                        return
+                    }
+                    guard let dictionary = object as? [String: Any] else {
+                        return
+                    }
+                    let parameters = dictionary
+                        .reduce(into: [String: String](), { (parameters, object) in
+                            switch object.value as? String {
+                            case .some(let value):
+                                parameters[object.key] = value
+                            case .none:
+                                parameters[object.key] = String(describing: object.value)
+                            }
+                        })
+                    DispatchQueue.main.async {
+                        completion(parameters)
+                    }
+                })
+                task.resume()
+            }
         }
     }
 }
