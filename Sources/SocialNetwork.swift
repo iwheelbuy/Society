@@ -68,6 +68,14 @@ public protocol SocialNetworkFacebookDataSource: class {
 public protocol SocialNetworkGoogleDataSource: class {
     
     func socialNetworkGoogleClientIdentifier() -> String
+    func socialNetworkGoogleClientSecret() -> String?
+}
+
+public extension SocialNetworkGoogleDataSource {
+    
+    func socialNetworkGoogleClientSecret() -> String? {
+        return nil
+    }
 }
 
 // MARK: - SocialNetworkOdnoklassnikiDataSource
@@ -201,7 +209,9 @@ public extension SocialNetwork {
         }
         parameters["state"] = nil
         if socialNetwork == .google, state["jwt"] != nil {
-            //
+            async {
+                SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
+            }
         } else {
             async {
                 SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
@@ -340,15 +350,28 @@ public extension SocialNetwork {
         ///
         public static var oauthUrl: URL {
             if let dataSource = dataSource {
-                let path = "https://accounts.google.com/o/oauth2/v2/auth"
-                let parameters = [
-                    "client_id": dataSource.socialNetworkGoogleClientIdentifier() + ".apps.googleusercontent.com",
-                    "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"google\"}",
-                    "response_type": "token",
-                    "scope": "profile"
-                ]
-                return getUrlFrom(path: path, parameters: parameters)
+                switch dataSource.socialNetworkGoogleClientSecret() {
+                case .none:
+                    let path = "https://accounts.google.com/o/oauth2/v2/auth"
+                    let parameters = [
+                        "client_id": dataSource.socialNetworkGoogleClientIdentifier() + ".apps.googleusercontent.com",
+                        "redirect_uri": urlRedirectSimplified,
+                        "state": "{\"provider\":\"google\"}",
+                        "response_type": "token",
+                        "scope": "profile"
+                    ]
+                    return getUrlFrom(path: path, parameters: parameters)
+                case .some:
+                    let path = "https://accounts.google.com/o/oauth2/v2/auth"
+                    let parameters = [
+                        "client_id": dataSource.socialNetworkGoogleClientIdentifier() + ".apps.googleusercontent.com",
+                        "redirect_uri": urlRedirectSimplified,
+                        "state": "{\"provider\":\"google\",\"jwt\":\"1\"}",
+                        "response_type": "code",
+                        "scope": "profile"
+                    ]
+                    return getUrlFrom(path: path, parameters: parameters)
+                }
             }
             fatalError("SocialNetworkGoogleDataSource doesn't exist")
         }
