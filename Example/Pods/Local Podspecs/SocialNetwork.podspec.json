@@ -1,6 +1,6 @@
 {
   "name": "SocialNetwork",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "platforms": {
     "ios": "9.0"
   },
@@ -15,7 +15,7 @@
   },
   "source": {
     "git": "https://github.com/iwheelbuy/SocialNetwork.git",
-    "tag": "0.2.2"
+    "tag": "0.2.3"
   },
   "summary": "SocialNetwork",
   "description": "SocialNetwork handles OAuth for various social networks",
