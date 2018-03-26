@@ -368,10 +368,10 @@ public extension SocialNetwork {
                     let path = "https://accounts.google.com/o/oauth2/v2/auth"
                     let parameters = [
                         "client_id": dataSource.socialNetworkGoogleClientIdentifier() + ".apps.googleusercontent.com",
-                        "redirect_uri": urlRedirectSimplified,
+//                        "redirect_uri": urlRedirectSimplified,
                         "state": "{\"provider\":\"google\",\"jwt\":\"1\"}",
                         "response_type": "code",
-                        "scope": "profile"
+                        "scope": "email"
                     ]
                     return getUrlFrom(path: path, parameters: parameters)
                 }
