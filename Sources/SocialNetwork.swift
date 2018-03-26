@@ -97,6 +97,12 @@ public enum SocialNetwork: String {
     case odnoklassniki = "odnoklassniki"
     /// Vkontakte
     case vkontakte = "vkontakte"
+    ///
+//    public init?(rawValue: String) {
+//        //
+//    }
+    
+    
     /// Official application exists and allows to authorize
     public var appExists: Bool {
         switch self {
@@ -171,15 +177,35 @@ public extension SocialNetwork {
             return false
         }
         var parameters = url.queryItems
-        guard let provider = parameters["state"] else {
+        guard let stateJsonString = parameters["state"] else {
             fatalError("\"state\" is missing")
+        }
+        guard let data = stateJsonString.data(using: .utf8) else {
+            fatalError("unable to parse \"state\" json")
+        }
+        let object: Any = {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: [])
+            } catch let error {
+                fatalError("\"error\"")
+            }
+        }()
+        guard let state = object as? [String: String] else {
+            fatalError("\"state\" json is not of type [String: String]")
+        }
+        guard let provider = state["provider"] else {
+            fatalError("\"provider\" is missing")
         }
         guard let socialNetwork = SocialNetwork(rawValue: provider) else {
             fatalError("SocialNetwork doesn't contain \"\(provider)\" provider")
         }
         parameters["state"] = nil
-        async {
-            SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
+        if socialNetwork == .google, state["jwt"] != nil {
+            //
+        } else {
+            async {
+                SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
+            }
         }
         return true
     }
@@ -266,7 +292,7 @@ public extension SocialNetwork {
                 let parameters = [
                     "client_id": dataSource.socialNetworkFacebookClientIdentifier(),
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "facebook",
+                    "state": "{\"provider\":\"facebook\"}",
                     "response_type": "token",
                     "scope": "public_profile"
                 ]
@@ -318,7 +344,7 @@ public extension SocialNetwork {
                 let parameters = [
                     "client_id": dataSource.socialNetworkGoogleClientIdentifier() + ".apps.googleusercontent.com",
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "google",
+                    "state": "{\"provider\":\"google\"}",
                     "response_type": "token",
                     "scope": "profile"
                 ]
@@ -343,7 +369,7 @@ public extension SocialNetwork {
                 let parameters = [
                     "client_id": dataSource.socialNetworkOdnoklassnikiClientIdentifier(),
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "odnoklassniki",
+                    "state": "{\"provider\":\"odnoklassniki\"}",
                     "response_type": "token",
                     "scope": "VALUABLE_ACCESS",
                     "layout": "m"
@@ -392,7 +418,7 @@ public extension SocialNetwork {
                 let parameters = [
                     "client_id": dataSource.socialNetworkVkontakteClientIdentifier(),
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "vkontakte",
+                    "state": "{\"provider\":\"vkontakte\"}",
                     "response_type": "token",
                     "revoke": "1",
                     "v": "5.73"
