@@ -17,7 +17,7 @@ SocialNetwork is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'SocialNetwork', '0.2.4'
+pod 'SocialNetwork', '0.3.0'
 ```
 
 ## Author

@@ -1,5 +1,5 @@
 PODS:
-  - SocialNetwork (0.2.4)
+  - SocialNetwork (0.3.0)
 
 DEPENDENCIES:
   - SocialNetwork (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  SocialNetwork: 3d806f8cac2791fbe314f66b2ea3d9202374dd72
+  SocialNetwork: a87197c36776575ec4749c73d2df2e6975967cc7
 
 PODFILE CHECKSUM: 9958472d7aed8019200d46a920850896a919190e
 
