@@ -19,6 +19,8 @@ case false:
 }
 ```
 
+## Info.plist setup
+
 To be able to use `appExists` variable you should provide `LSApplicationQueriesSchemes` for desired social networks in `Info.plist`:
 
 ```swift
@@ -36,6 +38,28 @@ To be able to use `appExists` variable you should provide `LSApplicationQueriesS
     <string>vk</string>
     <string>vk-share</string>
     <string>vkauthorize</string>
+</array>
+```
+
+Required `CFBundleURLType` is `socialnetwork`. Other `CFBundleURLTypes` are optional and should be provided if you plan to use authorization via official applications:
+
+```swift
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleURLName</key>
+        <string>SocialNetwork</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>socialnetwork</string>
+            <!-- facebook.com -->
+            <string>fb0123456789</string>
+            <!-- ok.ru -->
+            <string>ok0123456789</string>
+            <!-- vk.com -->
+            <string>vk0123456789</string>
+        </array>
+    </dict>
 </array>
 ```
 
