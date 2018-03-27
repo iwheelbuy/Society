@@ -1,13 +1,13 @@
-# git tag 0.3.0
-# git push origin 0.3.0
+# git tag 0.3.2
+# git push origin 0.3.2
 # pod lib lint SocialNetwork.podspec --allow-warnings
 # pod spec lint SocialNetwork.podspec --allow-warnings
-# pod trunk push SocialNetwork.podspec --allow-warnings
+# pod trunk push SocialNetwork.podspec --allow-warnings --verbose
 
 Pod::Spec.new do |s|
 
     s.name                  = 'SocialNetwork'
-    s.version               = '0.3.0'
+    s.version               = '0.3.2'
     s.ios.deployment_target = '9.0'
     s.source_files          = 'Sources/**/*.swift'
     s.homepage              = 'https://github.com/iwheelbuy/SocialNetwork'
