@@ -5,13 +5,41 @@
 [![License](https://img.shields.io/cocoapods/l/SocialNetwork.svg?style=flat)](http://cocoapods.org/pods/SocialNetwork)
 [![Platform](https://img.shields.io/cocoapods/p/SocialNetwork.svg?style=flat)](http://cocoapods.org/pods/SocialNetwork)
 
-## Basic setup
+## Usage
 
-Importh the framework:
+You can open an official application of the social network or present `SFSafariViewController` for authorization:
 
 ```swift
-import SocialNetwork
+switch SocialNetwork.facebook.appExists {
+case true:
+    UIApplication.shared.openURL(SocialNetwork.facebook.appUrl)
+case false:
+    let controller = SFSafariViewController(url: SocialNetwork.facebook.oauthUrl)
+    UIApplication.shared.keyWindow?.rootViewController?.present(controller: controller)
+}
 ```
+
+To be able to use `appExists` variable you should provide `LSApplicationQueriesSchemes` for desired social networks in `Info.plist`:
+
+```swift
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <!-- facebook.com -->
+    <string>fb</string>
+    <string>fbapi</string>
+    <string>fbauth</string>
+    <string>fbauth2</string>
+    <!-- ok.ru -->
+    <string>odnoklassniki</string>
+    <string>okauth</string>
+    <!-- vk.com -->
+    <string>vk</string>
+    <string>vk-share</string>
+    <string>vkauthorize</string>
+</array>
+```
+
+## Basic setup
 
 Set the `SocialNetworkDataSource` and the `SocialNetworkDelegate` somewhere in your project:
 
