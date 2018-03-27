@@ -71,7 +71,6 @@ func getParametersFrom(request: URLRequest, _ completion: @escaping ([String: St
             guard let data = data else {
                 return
             }
-            print(String.init(data: data, encoding: .utf8))
             guard let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
                 return
             }
