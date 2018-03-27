@@ -7,9 +7,40 @@
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+Set the `SocialNetworkDataSource` and the `SocialNetworkDelegate` somewhere in your project:
 
-## Requirements
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    SocialNetwork.dataSource = self
+    SocialNetwork.delegate = self
+    return true
+}
+```
+
+Proceed the URL this way:
+
+```swift
+func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    if SocialNetwork.didProceed(url: url) {
+        return true
+    }
+    return false
+}
+```
+
+Conform to `SocialNetworkDelegate` to receive authorization data:
+
+```swift
+extension AppDelegate: SocialNetworkDelegate {
+    
+    func socialNetwork(socialNetwork: SocialNetwork, didCompleteWithParameters parameters: [String : String]) {
+        // hide authorization controllers if there are some
+        if let token = socialNetwork.getToken(parameters: parameters) {
+            // do something with token
+        }
+    }
+}
+```
 
 ## Installation
 
