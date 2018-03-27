@@ -11,7 +11,7 @@ pod 'SocialNetwork', '0.3.2'
 
 ## Usage
 
-You can open an official application of the social network or present `SFSafariViewController` for authorization:
+You can open an official application of a social network or present `SFSafariViewController` for authorization:
 
 ```swift
 switch SocialNetwork.facebook.appExists {
@@ -22,6 +22,8 @@ case false:
     UIApplication.shared.keyWindow?.rootViewController?.present(controller: controller)
 }
 ```
+
+Take into account that not each social network allows to authorize via its official application.
 
 ## Info.plist setup
 
