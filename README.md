@@ -5,6 +5,10 @@
 [![License](https://img.shields.io/cocoapods/l/SocialNetwork.svg?style=flat)](http://cocoapods.org/pods/SocialNetwork)
 [![Platform](https://img.shields.io/cocoapods/p/SocialNetwork.svg?style=flat)](http://cocoapods.org/pods/SocialNetwork)
 
+```ruby
+pod 'SocialNetwork', '0.3.2'
+```
+
 ## Usage
 
 You can open an official application of the social network or present `SFSafariViewController` for authorization:
@@ -139,15 +143,6 @@ extension AppDelegate: SocialNetworkDataSource {
         }
     }
 }
-```
-
-## Installation
-
-SocialNetwork is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'SocialNetwork', '0.3.2'
 ```
 
 ## Author
