@@ -61,6 +61,14 @@ public protocol SocialNetworkDelegate: class {
 public protocol SocialNetworkFacebookDataSource: class {
     
     func socialNetworkFacebookClientIdentifier() -> String
+    func socialNetworkFacebookClientSecret() -> String?
+}
+
+public extension SocialNetworkFacebookDataSource {
+    
+    func socialNetworkFacebookClientSecret() -> String? {
+        return nil
+    }
 }
 
 // MARK: - SocialNetworkGoogleDataSource
@@ -83,6 +91,14 @@ public extension SocialNetworkGoogleDataSource {
 public protocol SocialNetworkOdnoklassnikiDataSource: class {
     
     func socialNetworkOdnoklassnikiClientIdentifier() -> String
+    func socialNetworkOdnoklassnikiClientSecret() -> String?
+}
+
+public extension SocialNetworkOdnoklassnikiDataSource {
+    
+    func socialNetworkOdnoklassnikiClientSecret() -> String? {
+        return nil
+    }
 }
 
 // MARK: - SocialNetworkVkontakteDataSource
@@ -90,6 +106,14 @@ public protocol SocialNetworkOdnoklassnikiDataSource: class {
 public protocol SocialNetworkVkontakteDataSource: class {
     
     func socialNetworkVkontakteClientIdentifier() -> String
+    func socialNetworkVkontakteClientSecret() -> String?
+}
+
+public extension SocialNetworkVkontakteDataSource {
+    
+    func socialNetworkVkontakteClientSecret() -> String? {
+        return nil
+    }
 }
 
 // MARK: -
@@ -105,12 +129,6 @@ public enum SocialNetwork: String {
     case odnoklassniki = "odnoklassniki"
     /// Vkontakte
     case vkontakte = "vkontakte"
-    ///
-//    public init?(rawValue: String) {
-//        //
-//    }
-    
-    
     /// Official application exists and allows to authorize
     public var appExists: Bool {
         switch self {
@@ -168,10 +186,10 @@ public enum SocialNetwork: String {
 public extension SocialNetwork {
     ///
     public static func didProceed(url: URL) -> Bool {
-        if didProceedOauthSimplified(url: url) {
+        if didProceedNativeSimplified(url: url) {
             return true
         }
-        if didProceedNativeSimplified(url: url) {
+        if didProceedOauthSimplified(url: url) {
             return true
         }
         return false
@@ -208,14 +226,27 @@ public extension SocialNetwork {
             fatalError("SocialNetwork doesn't contain \"\(provider)\" provider")
         }
         parameters["state"] = nil
-        if socialNetwork == .google, state["jwt"] != nil {
-            guard let code = parameters["code"] else {
-                fatalError("\"code\" is missing")
+        switch parameters["code"] {
+        case .some(let code):
+            switch socialNetwork {
+            case .facebook:
+                SocialNetwork.Facebook.exchangeForParameters(code: code) { (parameters) in
+                    SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
+                }
+            case .google:
+                SocialNetwork.Google.exchangeForParameters(code: code) { (parameters) in
+                    SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
+                }
+            case .odnoklassniki:
+                SocialNetwork.Odnoklassniki.exchangeForParameters(code: code) { (parameters) in
+                    SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
+                }
+            case .vkontakte:
+                SocialNetwork.Vkontakte.exchangeForParameters(code: code) { (parameters) in
+                    SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
+                }
             }
-            SocialNetwork.Google.exchangeForParameters(code: code) { (parameters) in
-                SocialNetwork.delegate?.socialNetwork(socialNetwork: .google, didCompleteWithParameters: parameters)
-            }
-        } else {
+        default:
             async {
                 SocialNetwork.delegate?.socialNetwork(socialNetwork: socialNetwork, didCompleteWithParameters: parameters)
             }
@@ -237,10 +268,10 @@ public extension SocialNetwork {
     }
     ///
     static func didProceedNativeFacebookSimplified(url: URL) -> Bool {
-        guard let provider = SocialNetwork.Facebook.dataSource else {
+        guard let dataSource = SocialNetwork.Facebook.dataSource else {
             return false
         }
-        let scheme = "fb" + provider.socialNetworkFacebookClientIdentifier()
+        let scheme = "fb" + dataSource.socialNetworkFacebookClientIdentifier()
         guard scheme == url.scheme else {
             return false
         }
@@ -255,10 +286,10 @@ public extension SocialNetwork {
     }
     ///
     static func didProceedNativeOdnoklassnikiSimplified(url: URL) -> Bool {
-        guard let provider = SocialNetwork.Odnoklassniki.dataSource else {
+        guard let dataSource = SocialNetwork.Odnoklassniki.dataSource else {
             return false
         }
-        let scheme = "ok" + provider.socialNetworkOdnoklassnikiClientIdentifier()
+        let scheme = "ok" + dataSource.socialNetworkOdnoklassnikiClientIdentifier()
         guard scheme == url.scheme else {
             return false
         }
@@ -273,10 +304,10 @@ public extension SocialNetwork {
     }
     ///
     static func didProceedNativeVkontakteSimplified(url: URL) -> Bool {
-        guard let provider = SocialNetwork.Vkontakte.dataSource else {
+        guard let dataSource = SocialNetwork.Vkontakte.dataSource else {
             return false
         }
-        let scheme = "vk" + provider.socialNetworkVkontakteClientIdentifier()
+        let scheme = "vk" + dataSource.socialNetworkVkontakteClientIdentifier()
         guard scheme == url.scheme else {
             return false
         }
@@ -301,15 +332,28 @@ public extension SocialNetwork {
         ///
         public static var oauthUrl: URL {
             if let dataSource = dataSource {
-                let path = "https://www.facebook.com/v2.12/dialog/oauth"
-                let parameters = [
-                    "client_id": dataSource.socialNetworkFacebookClientIdentifier(),
-                    "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"facebook\"}",
-                    "response_type": "token",
-                    "scope": "public_profile"
-                ]
-                return getUrlFrom(path: path, parameters: parameters)
+                switch dataSource.socialNetworkFacebookClientSecret() {
+                case .none:
+                    let path = "https://www.facebook.com/v2.12/dialog/oauth"
+                    let parameters = [
+                        "client_id": dataSource.socialNetworkFacebookClientIdentifier(),
+                        "redirect_uri": urlRedirectSimplified,
+                        "state": "{\"provider\":\"facebook\"}",
+                        "response_type": "token",
+                        "scope": "public_profile"
+                    ]
+                    return getUrlFrom(path: path, parameters: parameters)
+                case .some:
+                    let path = "https://www.facebook.com/v2.12/dialog/oauth"
+                    let parameters = [
+                        "client_id": dataSource.socialNetworkFacebookClientIdentifier(),
+                        "redirect_uri": urlRedirectSimplified,
+                        "state": "{\"provider\":\"facebook\"}",
+                        "response_type": "code",
+                        "scope": "public_profile"
+                    ]
+                    return getUrlFrom(path: path, parameters: parameters)
+                }
             }
             fatalError("SocialNetworkFacebookDataSource doesn't exist")
         }
@@ -340,6 +384,46 @@ public extension SocialNetwork {
             }
             fatalError("SocialNetworkFacebookDataSource doesn't exist")
         }
+        ///
+        public static func exchangeForParameters(code: String, _ completion: @escaping ([String: String]) -> ()) {
+            DispatchQueue.global(qos: .userInteractive).async {
+                let parameters = [
+                    "code": code,
+                    "client_id": dataSource!.socialNetworkFacebookClientIdentifier(),
+                    "client_secret": dataSource!.socialNetworkFacebookClientSecret()!,
+                    "redirect_uri": urlRedirectSimplified
+                ]
+                let url = URL(string: "https://graph.facebook.com/v2.12/oauth/access_token")!
+                var request = URLRequest(url: url)
+                request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                request.httpMethod = "POST"
+                request.httpBody = parameters.map({ "\($0.key)=\($0.value)" }).joined(separator: "&").data(using: .utf8)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, _, _) in
+                    guard let data = data else {
+                        return
+                    }
+                    guard let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
+                        return
+                    }
+                    guard let dictionary = object as? [String: Any] else {
+                        return
+                    }
+                    let parameters = dictionary
+                        .reduce(into: [String: String](), { (parameters, object) in
+                            switch object.value as? String {
+                            case .some(let value):
+                                parameters[object.key] = value
+                            case .none:
+                                parameters[object.key] = String(describing: object.value)
+                            }
+                        })
+                    DispatchQueue.main.async {
+                        completion(parameters)
+                    }
+                })
+                task.resume()
+            }
+        }
     }
 }
 
@@ -361,16 +445,16 @@ public extension SocialNetwork {
                         "redirect_uri": urlRedirectSimplified,
                         "state": "{\"provider\":\"google\"}",
                         "response_type": "token",
-                        "scope": "profile"
+                        "scope": "email"
                     ]
                     return getUrlFrom(path: path, parameters: parameters)
                 case .some:
                     let path = "https://accounts.google.com/o/oauth2/v2/auth"
                     let parameters = [
                         "client_id": dataSource.socialNetworkGoogleClientIdentifier() + ".apps.googleusercontent.com",
-//                        "redirect_uri": urlRedirectSimplified,
-                        "state": "{\"provider\":\"google\",\"jwt\":\"1\"}",
+                        "redirect_uri": urlRedirectSimplified,
                         "response_type": "code",
+                        "state": "{\"provider\":\"google\"}",
                         "scope": "email"
                     ]
                     return getUrlFrom(path: path, parameters: parameters)
@@ -431,16 +515,30 @@ public extension SocialNetwork {
         ///
         public static var oauthUrl: URL {
             if let dataSource = dataSource {
-                let path = "https://connect.ok.ru/oauth/authorize"
-                let parameters = [
-                    "client_id": dataSource.socialNetworkOdnoklassnikiClientIdentifier(),
-                    "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"odnoklassniki\"}",
-                    "response_type": "token",
-                    "scope": "VALUABLE_ACCESS",
-                    "layout": "m"
-                ]
-                return getUrlFrom(path: path, parameters: parameters)
+                switch dataSource.socialNetworkOdnoklassnikiClientSecret() {
+                case .none:
+                    let path = "https://connect.ok.ru/oauth/authorize"
+                    let parameters = [
+                        "client_id": dataSource.socialNetworkOdnoklassnikiClientIdentifier(),
+                        "redirect_uri": urlRedirectSimplified,
+                        "state": "{\"provider\":\"odnoklassniki\"}",
+                        "response_type": "token",
+                        "scope": "VALUABLE_ACCESS",
+                        "layout": "m"
+                    ]
+                    return getUrlFrom(path: path, parameters: parameters)
+                case .some:
+                    let path = "https://connect.ok.ru/oauth/authorize"
+                    let parameters = [
+                        "client_id": dataSource.socialNetworkOdnoklassnikiClientIdentifier(),
+                        "redirect_uri": urlRedirectSimplified,
+                        "state": "{\"provider\":\"odnoklassniki\"}",
+                        "response_type": "code",
+                        "scope": "VALUABLE_ACCESS",
+                        "layout": "m"
+                    ]
+                    return getUrlFrom(path: path, parameters: parameters)
+                }
             }
             fatalError("SocialNetworkOdnoklassnikiDataSource doesn't exist")
         }
@@ -467,6 +565,47 @@ public extension SocialNetwork {
             }
             fatalError("SocialNetworkOdnoklassnikiDataSource doesn't exist")
         }
+        ///
+        public static func exchangeForParameters(code: String, _ completion: @escaping ([String: String]) -> ()) {
+            DispatchQueue.global(qos: .userInteractive).async {
+                let parameters = [
+                    "code": code,
+                    "client_id": dataSource!.socialNetworkOdnoklassnikiClientIdentifier(),
+                    "client_secret": dataSource!.socialNetworkOdnoklassnikiClientSecret()!,
+                    "redirect_uri": urlRedirectSimplified,
+                    "grant_type": "authorization_code"
+                ]
+                let url = URL(string: "https://api.ok.ru/oauth/token.do")!
+                var request = URLRequest(url: url)
+                request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                request.httpMethod = "POST"
+                request.httpBody = parameters.map({ "\($0.key)=\($0.value)" }).joined(separator: "&").data(using: .utf8)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, _, _) in
+                    guard let data = data else {
+                        return
+                    }
+                    guard let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
+                        return
+                    }
+                    guard let dictionary = object as? [String: Any] else {
+                        return
+                    }
+                    let parameters = dictionary
+                        .reduce(into: [String: String](), { (parameters, object) in
+                            switch object.value as? String {
+                            case .some(let value):
+                                parameters[object.key] = value
+                            case .none:
+                                parameters[object.key] = String(describing: object.value)
+                            }
+                        })
+                    DispatchQueue.main.async {
+                        completion(parameters)
+                    }
+                })
+                task.resume()
+            }
+        }
     }
 }
 
@@ -480,16 +619,30 @@ public extension SocialNetwork {
         ///
         public static var oauthUrl: URL {
             if let dataSource = dataSource {
-                let path = "https://oauth.vk.com/authorize"
-                let parameters = [
-                    "client_id": dataSource.socialNetworkVkontakteClientIdentifier(),
-                    "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"vkontakte\"}",
-                    "response_type": "token",
-                    "revoke": "1",
-                    "v": "5.73"
-                ]
-                return getUrlFrom(path: path, parameters: parameters)
+                switch dataSource.socialNetworkVkontakteClientSecret() {
+                case .none:
+                    let path = "https://oauth.vk.com/authorize"
+                    let parameters = [
+                        "client_id": dataSource.socialNetworkVkontakteClientIdentifier(),
+                        "redirect_uri": urlRedirectSimplified,
+                        "state": "{\"provider\":\"vkontakte\"}",
+                        "response_type": "token",
+                        "revoke": "1",
+                        "v": "5.73"
+                    ]
+                    return getUrlFrom(path: path, parameters: parameters)
+                case .some:
+                    let path = "https://oauth.vk.com/authorize"
+                    let parameters = [
+                        "client_id": dataSource.socialNetworkVkontakteClientIdentifier(),
+                        "redirect_uri": urlRedirectSimplified,
+                        "state": "{\"provider\":\"vkontakte\"}",
+                        "response_type": "code",
+                        "revoke": "1",
+                        "v": "5.73"
+                    ]
+                    return getUrlFrom(path: path, parameters: parameters)
+                }
             }
             fatalError("SocialNetworkVkontakteDataSource doesn't exist")
         }
@@ -514,6 +667,46 @@ public extension SocialNetwork {
                 return getUrlFrom(path: path, parameters: parameters)
             }
             fatalError("SocialNetworkVkontakteDataSource doesn't exist")
+        }
+        ///
+        public static func exchangeForParameters(code: String, _ completion: @escaping ([String: String]) -> ()) {
+            DispatchQueue.global(qos: .userInteractive).async {
+                let parameters = [
+                    "code": code,
+                    "client_id": dataSource!.socialNetworkVkontakteClientIdentifier(),
+                    "client_secret": dataSource!.socialNetworkVkontakteClientSecret()!,
+                    "redirect_uri": urlRedirectSimplified
+                ]
+                let url = URL(string: "https://oauth.vk.com/access_token")!
+                var request = URLRequest(url: url)
+                request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                request.httpMethod = "POST"
+                request.httpBody = parameters.map({ "\($0.key)=\($0.value)" }).joined(separator: "&").data(using: .utf8)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, _, _) in
+                    guard let data = data else {
+                        return
+                    }
+                    guard let object = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
+                        return
+                    }
+                    guard let dictionary = object as? [String: Any] else {
+                        return
+                    }
+                    let parameters = dictionary
+                        .reduce(into: [String: String](), { (parameters, object) in
+                            switch object.value as? String {
+                            case .some(let value):
+                                parameters[object.key] = value
+                            case .none:
+                                parameters[object.key] = String(describing: object.value)
+                            }
+                        })
+                    DispatchQueue.main.async {
+                        completion(parameters)
+                    }
+                })
+                task.resume()
+            }
         }
     }
 }
