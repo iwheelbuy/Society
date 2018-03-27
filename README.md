@@ -7,6 +7,12 @@
 
 ## Example
 
+Importh the framework:
+
+```swift
+import SocialNetwork
+```
+
 Set the `SocialNetworkDataSource` and the `SocialNetworkDelegate` somewhere in your project:
 
 ```swift
@@ -37,6 +43,22 @@ extension AppDelegate: SocialNetworkDelegate {
         // hide authorization controllers if there are some
         if let token = socialNetwork.getToken(parameters: parameters) {
             // do something with token
+        }
+    }
+}
+```
+
+Conform to `SocialNetworkDataSource` and provide information for required social networks:
+
+```swift
+extension AppDelegate: SocialNetworkDataSource {
+    
+    func socialNetworkClientIdentifier(socialNetwork: SocialNetwork) -> String? {
+        switch socialNetwork {
+        case .facebook:
+            return "0123456789"
+        default:
+            return nil
         }
     }
 }
