@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/SocialNetwork.svg?style=flat)](http://cocoapods.org/pods/SocialNetwork)
 [![Platform](https://img.shields.io/cocoapods/p/SocialNetwork.svg?style=flat)](http://cocoapods.org/pods/SocialNetwork)
 
-## Example
+## Basic setup
 
 Importh the framework:
 
@@ -57,6 +57,31 @@ extension AppDelegate: SocialNetworkDataSource {
         switch socialNetwork {
         case .facebook:
             return "0123456789"
+        default:
+            return nil
+        }
+    }
+}
+```
+
+There are some additional optional methods, where you can provide client secret for code flow authorization or change the default permissions:
+
+```swift
+extension AppDelegate: SocialNetworkDataSource {
+    
+    func socialNetworkClientSecret(socialNetwork: SocialNetwork) -> String? {
+        switch socialNetwork {
+        case .facebook:
+            return "987654321"
+        default:
+            return nil
+        }
+    }
+    
+    func socialNetworkPermissions(socialNetwork: SocialNetwork) -> String? {
+        switch socialNetwork {
+        case .facebook:
+            return "public_profile,email"
         default:
             return nil
         }
