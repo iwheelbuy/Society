@@ -5,11 +5,13 @@
 [![License](https://img.shields.io/cocoapods/l/SocialNetwork.svg?style=flat)](http://cocoapods.org/pods/SocialNetwork)
 [![Platform](https://img.shields.io/cocoapods/p/SocialNetwork.svg?style=flat)](http://cocoapods.org/pods/SocialNetwork)
 
+## Usage
+
+Install via CocoaPods:
+
 ```ruby
 pod 'SocialNetwork', '0.3.2'
 ```
-
-## Usage
 
 You can open an official application of a social network or present `SFSafariViewController` for authorization:
 
@@ -27,7 +29,7 @@ Take into account that not each social network allows to authorize via its offic
 
 ## Info.plist setup
 
-To be able to use `appExists` variable you should provide `LSApplicationQueriesSchemes` for desired social networks in `Info.plist`:
+To be able to use `appExists` variable you should provide `LSApplicationQueriesSchemes` for desired social networks:
 
 ```swift
 <key>LSApplicationQueriesSchemes</key>
@@ -47,7 +49,7 @@ To be able to use `appExists` variable you should provide `LSApplicationQueriesS
 </array>
 ```
 
-Required `CFBundleURLType` is `socialnetwork`. Other `CFBundleURLTypes` are optional and should be provided if you plan to use authorization via official applications:
+Required `CFBundleURLTypes` - `socialnetwork`. Other `CFBundleURLTypes` are optional and should be provided only if you plan to use authorization via official applications:
 
 ```swift
 <key>CFBundleURLTypes</key>
@@ -68,6 +70,16 @@ Required `CFBundleURLType` is `socialnetwork`. Other `CFBundleURLTypes` are opti
     </dict>
 </array>
 ```
+
+## Redirect URL setup
+
+In each social network, which is planned to be used for authorization, you should provide a redirect URL:
+
+https://iwheelbuy.github.io/SocialNetwork/simplified.html
+
+The code of redirection html page can be found there:
+
+https://github.com/iwheelbuy/SocialNetwork/blob/master/docs/simplified.html
 
 ## Basic setup
 
