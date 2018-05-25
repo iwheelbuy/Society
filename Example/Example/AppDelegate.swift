@@ -12,42 +12,39 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         SocialNetwork.delegate = self
-        SocialNetwork.Facebook.dataSource = self
-        SocialNetwork.Google.dataSource = self
-        SocialNetwork.Odnoklassniki.dataSource = self
-        SocialNetwork.Vkontakte.dataSource = self
+        SocialNetwork.dataSource = self
         window?.rootViewController = UIViewController()
         window?.makeKeyAndVisible()
         defer {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                //
-                switch SocialNetwork.Facebook.appExists {
-                case true:
-                    UIApplication.shared.openURL(SocialNetwork.Facebook.appUrl)
-                case false:
-                    let controller = SFSafariViewController(url: SocialNetwork.Facebook.oauthUrl)
-                    self?.window?.rootViewController?.present(controller, animated: true)
-                }
-                //
-//                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
-//                self?.window?.rootViewController?.present(controller, animated: true)
-                //
-//                switch SocialNetwork.Odnoklassniki.appExists {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+//                //
+//                switch SocialNetwork.Facebook.appExists {
 //                case true:
-//                    UIApplication.shared.openURL(SocialNetwork.Odnoklassniki.appUrl)
+//                    UIApplication.shared.openURL(SocialNetwork.Facebook.appUrl)
 //                case false:
-//                    let controller = SFSafariViewController(url: SocialNetwork.Odnoklassniki.oauthUrl)
+//                    let controller = SFSafariViewController(url: SocialNetwork.Facebook.oauthUrl)
 //                    self?.window?.rootViewController?.present(controller, animated: true)
 //                }
-                //
-//                switch SocialNetwork.Vkontakte.appExists {
-//                case true:
-//                    UIApplication.shared.openURL(SocialNetwork.Vkontakte.appUrl)
-//                case false:
-//                    let controller = SFSafariViewController(url: SocialNetwork.Vkontakte.oauthUrl)
-//                    self?.window?.rootViewController?.present(controller, animated: true)
-//                }
-            }
+//                //
+////                let controller = SFSafariViewController(url: SocialNetwork.Google.url)
+////                self?.window?.rootViewController?.present(controller, animated: true)
+//                //
+////                switch SocialNetwork.Odnoklassniki.appExists {
+////                case true:
+////                    UIApplication.shared.openURL(SocialNetwork.Odnoklassniki.appUrl)
+////                case false:
+////                    let controller = SFSafariViewController(url: SocialNetwork.Odnoklassniki.oauthUrl)
+////                    self?.window?.rootViewController?.present(controller, animated: true)
+////                }
+//                //
+////                switch SocialNetwork.Vkontakte.appExists {
+////                case true:
+////                    UIApplication.shared.openURL(SocialNetwork.Vkontakte.appUrl)
+////                case false:
+////                    let controller = SFSafariViewController(url: SocialNetwork.Vkontakte.oauthUrl)
+////                    self?.window?.rootViewController?.present(controller, animated: true)
+////                }
+//            }
         }
         return true
     }
@@ -81,30 +78,44 @@ extension AppDelegate: SocialNetworkDelegate {
     }
 }
 
-extension AppDelegate: SocialNetworkFacebookDataSource {
+extension AppDelegate: SocialNetworkDataSource {
     
-    func socialNetworkFacebookClientIdentifier() -> String {
-        return "570084943360654"
+    func socialNetworkClientIdentifier(socialNetwork: SocialNetwork) -> String? {
+        switch socialNetwork {
+        case .facebook:
+            return ""
+        case .google:
+            return ""
+        case .odnoklassniki:
+            return ""
+        case .vkontakte:
+            return ""
+        }
     }
-}
-
-extension AppDelegate: SocialNetworkGoogleDataSource {
     
-    func socialNetworkGoogleClientIdentifier() -> String {
-        return "683698461214-h7n4hki1pagc5d7fvveq4fbb3baolt72"
+    func socialNetworkClientSecret(socialNetwork: SocialNetwork) -> String? {
+        switch socialNetwork {
+        case .facebook:
+            return ""
+        case .google:
+            return ""
+        case .odnoklassniki:
+            return ""
+        case .vkontakte:
+            return ""
+        }
     }
-}
-
-extension AppDelegate: SocialNetworkOdnoklassnikiDataSource {
     
-    func socialNetworkOdnoklassnikiClientIdentifier() -> String {
-        return "1264616960"
-    }
-}
-
-extension AppDelegate: SocialNetworkVkontakteDataSource {
-    
-    func socialNetworkVkontakteClientIdentifier() -> String {
-        return "6357688"
+    func socialNetworkPermissions(socialNetwork: SocialNetwork) -> String? {
+        switch socialNetwork {
+        case .facebook:
+            return "public_profile,email"
+        case .google:
+            return "email profile"
+        case .odnoklassniki:
+            return "GET_EMAIL,VALUABLE_ACCESS"
+        case .vkontakte:
+            return "email"
+        }
     }
 }

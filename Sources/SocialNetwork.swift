@@ -211,8 +211,9 @@ extension SocialNetwork {
         guard let clientId = SocialNetwork.dataSource?.socialNetworkClientIdentifier(socialNetwork: self) else {
             return false
         }
-        let _scheme: String? = {
-            switch self {
+        
+        func getScheme(_ socialNetwork: SocialNetwork) -> String? {
+            switch socialNetwork {
             case .facebook:
                 return "fb" + clientId
             case .google:
@@ -222,11 +223,9 @@ extension SocialNetwork {
             case .vkontakte:
                 return "vk" + clientId
             }
-        }()
-        guard let scheme = _scheme else {
-            return false
         }
-        guard scheme == url.scheme else {
+        
+        guard let scheme = getScheme(self), scheme == url.scheme else {
             return false
         }
         let parameters = url
@@ -244,27 +243,26 @@ extension SocialNetwork {
 public extension SocialNetwork {
     /// Official application exists and allows to authorize
     public var appExists: Bool {
-        switch self {
-        case .facebook:
-            return ["fb://", "fbapi://", "fbauth://", "fbauth2://"]
-                .flatMap({ Foundation.URL(string: $0) })
+        
+        func exists(_ paths: [String]) -> Bool {
+            return paths
+                .compactMap({ (string: String) -> URL? in
+                    return Foundation.URL(string: string)
+                })
                 .map({ UIApplication.shared.canOpenURL($0) })
                 .filter({ $0 == false })
                 .count == 0
+        }
+        
+        switch self {
+        case .facebook:
+            return exists(["fb://", "fbapi://", "fbauth://", "fbauth2://"])
         case .google:
             return false
         case .odnoklassniki:
-            return ["odnoklassniki://", "okauth://"]
-                .flatMap({ Foundation.URL(string: $0) })
-                .map({ UIApplication.shared.canOpenURL($0) })
-                .filter({ $0 == false })
-                .count == 0
+            return exists(["odnoklassniki://", "okauth://"])
         case .vkontakte:
-            return ["vk://", "vk-share://", "vkauthorize://"]
-                .flatMap({ Foundation.URL(string: $0) })
-                .map({ UIApplication.shared.canOpenURL($0) })
-                .filter({ $0 == false })
-                .count == 0
+            return exists(["vk://", "vk-share://", "vkauthorize://"])
         }
     }
 }

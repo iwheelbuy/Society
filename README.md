@@ -10,7 +10,7 @@
 Install via CocoaPods:
 
 ```ruby
-pod 'SocialNetwork', '0.3.2'
+pod 'SocialNetwork', '0.3.4'
 ```
 
 You can open an official application of a social network or present `SFSafariViewController` for authorization:

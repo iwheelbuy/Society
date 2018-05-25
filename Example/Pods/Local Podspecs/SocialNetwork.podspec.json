@@ -1,6 +1,6 @@
 {
   "name": "SocialNetwork",
-  "version": "0.3.2",
+  "version": "0.3.4",
   "platforms": {
     "ios": "9.0"
   },
@@ -15,9 +15,9 @@
   },
   "source": {
     "git": "https://github.com/iwheelbuy/SocialNetwork.git",
-    "tag": "0.3.2"
+    "tag": "0.3.4"
   },
   "summary": "SocialNetwork",
   "description": "SocialNetwork handles OAuth for various social networks",
-  "cocoapods_version": ">= 1.4.0"
+  "cocoapods_version": ">= 1.5.3"
 }
