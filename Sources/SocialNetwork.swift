@@ -1,12 +1,15 @@
 import Foundation
 
 private let urlRedirectSimplified = "https://iwheelbuy.github.io/SocialNetwork/simplified.html"
-private let urlQueryAllowedSet = CharacterSet.urlQueryAllowed
 
 extension String {
     
+    var urlHostConverted: String? {
+        return addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+    }
+    
     var urlQueryConverted: String? {
-        return addingPercentEncoding(withAllowedCharacters: urlQueryAllowedSet)
+        return addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
     }
     
     var queryItems: [String: String] {
@@ -39,14 +42,14 @@ extension URL {
                 dictionary[item.name] = item.value
             }
     }
-}
-
-func getUrlFrom(path: String, parameters: [String: String]) -> URL {
-    let string = path + "?" + parameters.map({ "\($0.key)=\($0.value)" }).joined(separator: "&")
-    guard let url = URL(string: string.urlQueryConverted ?? string) else {
-        fatalError("Failed to create URL from path: \"\(string)\"")
+    
+    init(parameters: [String: String], path: String) {
+        let string = path + "?" + parameters.map({ "\($0.key)=\($0.value)" }).joined(separator: "&")
+        guard let url = URL(string: string) else {
+            fatalError("Failed to create URL from path: \"\(string)\"")
+        }
+        self = url
     }
-    return url
 }
 
 func getUrlRequestFrom(path: String, parameters: [String: String]) -> URLRequest {
@@ -136,6 +139,10 @@ public enum SocialNetwork: String {
     case odnoklassniki = "odnoklassniki"
     /// Vkontakte
     case vkontakte = "vkontakte"
+    
+    var state: String {
+        return "{\"provider\":\"\(self.rawValue)\"}".urlHostConverted!
+    }
 }
 
 public extension SocialNetwork {
@@ -288,7 +295,7 @@ public extension SocialNetwork {
                 "legacy_override": "v2.6",
                 "sdk_version": "4.7"
             ]
-            return getUrlFrom(path: path, parameters: parameters)
+            return URL(parameters: parameters, path: path)
         case .google:
             fatalError("\"\(self.rawValue)\" doesn't allow to open its official application. Does it? PR please")
         case .odnoklassniki:
@@ -300,17 +307,17 @@ public extension SocialNetwork {
                 "scope": scope ?? "VALUABLE_ACCESS",
                 "layout": "m"
             ]
-            return getUrlFrom(path: path, parameters: parameters)
+            return URL(parameters: parameters, path: path)
         case .vkontakte:
             let path = "vkauthorize://authorize"
             let parameters = [
                 "client_id": clientId,
                 "revoke": "1",
-                "v": "5.73",
+                "v": "5.87",
                 "scope": scope ?? "0",
                 "sdk_version": "1.4.6"
             ]
-            return getUrlFrom(path: path, parameters: parameters)
+            return URL(parameters: parameters, path: path)
         }
     }
 }
@@ -331,21 +338,21 @@ public extension SocialNetwork {
                 let parameters = [
                     "client_id": clientId,
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"facebook\"}",
+                    "state": state,
                     "response_type": "token",
                     "scope": scope ?? "public_profile"
                 ]
-                return getUrlFrom(path: path, parameters: parameters)
+                return URL(parameters: parameters, path: path)
             case true:
                 let path = "https://www.facebook.com/v2.12/dialog/oauth"
                 let parameters = [
                     "client_id": clientId,
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"facebook\"}",
+                    "state": state,
                     "response_type": "code",
                     "scope": scope ?? "public_profile"
                 ]
-                return getUrlFrom(path: path, parameters: parameters)
+                return URL(parameters: parameters, path: path)
             }
         case .google:
             switch oauthUsingCodeFlow {
@@ -354,21 +361,21 @@ public extension SocialNetwork {
                 let parameters = [
                     "client_id": clientId + ".apps.googleusercontent.com",
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"google\"}",
+                    "state": state,
                     "response_type": "token",
                     "scope": scope ?? "profile"
                 ]
-                return getUrlFrom(path: path, parameters: parameters)
+                return URL(parameters: parameters, path: path)
             case true:
                 let path = "https://accounts.google.com/o/oauth2/v2/auth"
                 let parameters = [
                     "client_id": clientId + ".apps.googleusercontent.com",
                     "redirect_uri": urlRedirectSimplified,
                     "response_type": "code",
-                    "state": "{\"provider\":\"google\"}",
+                    "state": state,
                     "scope": scope ?? "profile"
                 ]
-                return getUrlFrom(path: path, parameters: parameters)
+                return URL(parameters: parameters, path: path)
             }
         case .odnoklassniki:
             switch oauthUsingCodeFlow {
@@ -377,23 +384,23 @@ public extension SocialNetwork {
                 let parameters = [
                     "client_id": clientId,
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"odnoklassniki\"}",
+                    "state": state,
                     "response_type": "token",
                     "scope": scope ?? "VALUABLE_ACCESS",
                     "layout": "m"
                 ]
-                return getUrlFrom(path: path, parameters: parameters)
+                return URL(parameters: parameters, path: path)
             case true:
                 let path = "https://connect.ok.ru/oauth/authorize"
                 let parameters = [
                     "client_id": clientId,
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"odnoklassniki\"}",
+                    "state": state,
                     "response_type": "code",
                     "scope": scope ?? "VALUABLE_ACCESS",
                     "layout": "m"
                 ]
-                return getUrlFrom(path: path, parameters: parameters)
+                return URL(parameters: parameters, path: path)
             }
         case .vkontakte:
             switch oauthUsingCodeFlow {
@@ -401,26 +408,31 @@ public extension SocialNetwork {
                 let path = "https://oauth.vk.com/authorize"
                 let parameters = [
                     "client_id": clientId,
-                    "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"vkontakte\"}",
+                    "redirect_uri": "vk\(clientId)://authorize".urlHostConverted!,
+                    "state": state,
+                    "display": "mobile",
+                    "sdk_version": "1.4.6",
                     "response_type": "token",
                     "revoke": "1",
-                    "scope": scope ?? "0",
-                    "v": "5.73"
+                    "scope": scope?.urlQueryConverted ?? "0",
+                    "v": "5.87"
                 ]
-                return getUrlFrom(path: path, parameters: parameters)
+                let url = URL(parameters: parameters, path: path)
+                print(url)
+                return url
             case true:
                 let path = "https://oauth.vk.com/authorize"
                 let parameters = [
                     "client_id": clientId,
                     "redirect_uri": urlRedirectSimplified,
-                    "state": "{\"provider\":\"vkontakte\"}",
+                    "state": state,
                     "response_type": "code",
                     "revoke": "1",
                     "scope": scope ?? "0",
-                    "v": "5.73"
+                    "v": "5.87"
                 ]
-                return getUrlFrom(path: path, parameters: parameters)
+                let url = URL(parameters: parameters, path: path)
+                return url
             }
         }
     }
