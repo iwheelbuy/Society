@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,8 +28,8 @@
 
 /* Begin PBXFileReference section */
 		044AA3E23F71470C9B5F50D44720EA0D /* Pods-Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Example-resources.sh"; sourceTree = "<group>"; };
-		0B4C7994B0985CD9E8BC71E13701C3FA /* _google.html */ = {isa = PBXFileReference; includeInIndex = 1; name = _google.html; path = docs/_google.html; sourceTree = "<group>"; };
-		0B64B9BC80847B7C6F923EA3AA5D453D /* blank.html */ = {isa = PBXFileReference; includeInIndex = 1; name = blank.html; path = docs/blank.html; sourceTree = "<group>"; };
+		0B4C7994B0985CD9E8BC71E13701C3FA /* _google.html */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.html; name = _google.html; path = docs/_google.html; sourceTree = "<group>"; };
+		0B64B9BC80847B7C6F923EA3AA5D453D /* blank.html */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.html; name = blank.html; path = docs/blank.html; sourceTree = "<group>"; };
 		0CDFF09E5A5CB6444AE04AA7EEA162D3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1062310467D167B0B9C82C46F0F7D03A /* SocialNetwork.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SocialNetwork.swift; path = Sources/SocialNetwork.swift; sourceTree = "<group>"; };
 		11434BC759D12F57876FBB74A4775E74 /* Pods-Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Example-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -37,19 +37,19 @@
 		1AD65E35A3233FBE6F2EFDEB3D43D114 /* Pods-Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Example-dummy.m"; sourceTree = "<group>"; };
 		1DDDAD3FD2B0D8AED702606A796260FA /* SocialNetwork-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SocialNetwork-umbrella.h"; sourceTree = "<group>"; };
 		25A37D4D536CC5988A439441117C41F4 /* Pods-Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Example.modulemap"; sourceTree = "<group>"; };
-		29996E5DED5C41A02FAF8AD3650B2EA1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		353B50C99724CFEF6B911D056199AB81 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		29996E5DED5C41A02FAF8AD3650B2EA1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		353B50C99724CFEF6B911D056199AB81 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3ADE9E5655579DB0F79DC9C80758673C /* Pods-Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		3F3EFEBDE6702DEFDFFF9D5C6DBC3773 /* Pods-Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Example-frameworks.sh"; sourceTree = "<group>"; };
 		51C031C2DA5A871776E02DBF9199502C /* SocialNetwork-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SocialNetwork-prefix.pch"; sourceTree = "<group>"; };
-		58EF01B8EEE853D220C495762D8EBFCE /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Example.framework; path = "Pods-Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		58EF01B8EEE853D220C495762D8EBFCE /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		5ADB323FEE31D5D6A8006D35B45810AA /* SocialNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SocialNetwork.framework; path = SocialNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5ADB323FEE31D5D6A8006D35B45810AA /* SocialNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SocialNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B81C04F8E84EAE60AE15C8695031A5F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86F600F10C3BE590CF39BCC6E205639D /* SocialNetwork.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SocialNetwork.modulemap; sourceTree = "<group>"; };
-		8C8FE98E37D3A0FC383FA37A62BF2F81 /* SocialNetwork.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = SocialNetwork.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		99FB4E204308F80601EB2ECF75CD26D0 /* simplified.html */ = {isa = PBXFileReference; includeInIndex = 1; name = simplified.html; path = docs/simplified.html; sourceTree = "<group>"; };
+		8C8FE98E37D3A0FC383FA37A62BF2F81 /* SocialNetwork.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = SocialNetwork.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; };
+		99FB4E204308F80601EB2ECF75CD26D0 /* simplified.html */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.html; name = simplified.html; path = docs/simplified.html; sourceTree = "<group>"; };
 		A79AC23D5A157FED70D9C53D844B2319 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		DA3733C8F89039DF40423C2EF5DDCE9F /* SocialNetwork.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SocialNetwork.xcconfig; sourceTree = "<group>"; };
 		E1CD806216275F24B6BA9DC547ACC93B /* SocialNetwork-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SocialNetwork-dummy.m"; sourceTree = "<group>"; };
