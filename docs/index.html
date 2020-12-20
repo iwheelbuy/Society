@@ -8,19 +8,19 @@
                 var components1 = window.location.href.split('.html#');
                 var components2 = window.location.href.split('.html?');
                 if (components0.length == 2) {
-                    var link = 'aizelsocial:/simplified?' + components0[1];
+                    var link = 'socialnetwork:/callback?' + components0[1];
 <!--                    document.getElementById("text").innerHTML = link;-->
                     window.location.replace(link);
                 } else if (components1.length == 2) {
-                    var link = 'aizelsocial:/simplified?' + components1[1];
+                    var link = 'socialnetwork:/callback?' + components1[1];
 <!--                    document.getElementById("text").innerHTML = link;-->
                     window.location.replace(link);
                 } else if (components2.length == 2) {
-                    var link = 'aizelsocial:/simplified?' + components2[1];
+                    var link = 'socialnetwork:/callback?' + components2[1];
 <!--                    document.getElementById("text").innerHTML = link;-->
                     window.location.replace(link);
                 } else {
-                    var link = 'aizelsocial:/simplified?';
+                    var link = 'socialnetwork:/callback?';
                     document.getElementById("text").innerHTML = window.location.href;
                     window.location.replace(link);
                 }
